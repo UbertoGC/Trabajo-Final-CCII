@@ -38,9 +38,5 @@ int main()
         al_flip_display();
     }
 
-    /*
-    al_install_keyboard();
-    al_set_color_depth(32);
-    al_set_gfx_mode(GFX_AUTODETECTED_WINDOWED, 740, 500, 0, 0);*/
     return 0;
 }
