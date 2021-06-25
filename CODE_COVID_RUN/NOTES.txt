@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+El siguiente código depende de la libreria de Allegro,
+asi que para poder ejecutarlo se necesita instalar la dependencia de Allegro.
+-----------------------------------------------------------------------------------
