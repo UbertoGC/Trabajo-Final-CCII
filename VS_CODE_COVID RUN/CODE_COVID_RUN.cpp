@@ -10,17 +10,21 @@ using namespace std;
 #include <allegro5/allegro_ttf.h>
 #include <allegro5/allegro_image.h>
 #include <Windows.h>
+
 int main()
 {
+    //INICIALIZACION DE FONT
     al_init();
+    al_init_image_addon();
+    al_init_font_addon();
+    al_init_ttf_addon();
+    
+
+    //COMPROBAR INICIALIZACION
     if (!al_init()) {
         al_show_native_message_box(NULL, "ERROR CRITICO", "ERROR: 001", "NO SE PUDO CARGAR LA LIBRERIA ALLEGRO!", NULL, ALLEGRO_MESSAGEBOX_ERROR);
         return -1;
     }
-    //INICIALIZACION DE FONT
-    al_init_font_addon();
-    al_init_ttf_addon();
-    al_init_image_addon();
 
     //INICIALIZACION DE KEYBOARD
     al_install_keyboard();
@@ -31,8 +35,11 @@ int main()
     //CREACION DE FUENTES
     ALLEGRO_FONT* main_font = al_load_font("GAMERIA.ttf", 70, 0);
 
-    //CREACUION DE PERSONAJE
+    //CREACION DE PERSONAJE
     ALLEGRO_BITMAP* prota = al_load_bitmap("personaje.png");
+
+    //CREACION DE FONDO DE PANTALLA
+    ALLEGRO_BITMAP* fondo = al_load_bitmap("background.jpg");
 
     //CREACION DE LISTA DE EVENTOS
     ALLEGRO_EVENT_QUEUE* Mis_eventos;
@@ -40,7 +47,6 @@ int main()
 
     //CREACION DE EVENTOS
     Mis_eventos = al_create_event_queue();
-
 
     //ASIGNACION DE EVENTOS A LA LISTA
     al_register_event_source(Mis_eventos, al_get_keyboard_event_source());
@@ -68,32 +74,36 @@ int main()
 
     salir = false;
 
-
+    //VARIABLES DE LA VENTANA
     int ANCHO = GetSystemMetrics(SM_CXSCREEN);
     int ALTO = GetSystemMetrics(SM_CYSCREEN);
 
+    //CONFIGURACION DE LA VENTANA
     al_set_window_title(ventana, "MI JUEGO");
     al_set_window_position(ventana, ANCHO / 2 - 800 / 2, ALTO / 2 - 600 / 2);
 
-
-
     while (!salir) {
-        al_draw_text(main_font, al_map_rgb(255, 255, 255), 200, 200, NULL, "HOLA MUNDO");
-        al_clear_to_color(al_map_rgb(120, 90, 90));
+        //COLOCAR COLOR DE FONDO
+        al_clear_to_color(al_map_rgb(255,255,255));
+
+        //DEFINIR SPRITES
         al_draw_bitmap_region(prota, paso * 48, dir * 48, 48, 48, x * desplaza, y * desplaza, 0);
+
+        //MOSTRAR PANTALLA
         al_flip_display();
+
         al_wait_for_event(Mis_eventos, &evento);
         if (evento.type == ALLEGRO_EVENT_DISPLAY_CLOSE){
             salir = true;
         }
 
+        //OBTENER LA TECLA PRESIONADA
         al_get_keyboard_state(&teclado);
 
         if (al_key_down(&teclado, ALLEGRO_KEY_UP)){
             y--;
             dir = 3;
             paso++;
-
         }
 
         if (al_key_down(&teclado, ALLEGRO_KEY_DOWN)){
@@ -102,23 +112,19 @@ int main()
             paso++;
         }
 
-        if (al_key_down(&teclado, ALLEGRO_KEY_LEFT))
-        {
+        if (al_key_down(&teclado, ALLEGRO_KEY_LEFT)){
             x--;
             dir = 1;
             paso++;
         }
 
-        if (al_key_down(&teclado, ALLEGRO_KEY_RIGHT))
-        {
+        if (al_key_down(&teclado, ALLEGRO_KEY_RIGHT)){
             x++;
             dir = 2;
             paso++;
         }
 
         // LIMITADORES
-
-
         if (x < 0) x = 0;
         if (x > 800 - 48) x = 800 - 48;
         if (y < 0) y = 0;
@@ -130,19 +136,15 @@ int main()
 
         }
 
-
     }
+    al_draw_text(main_font, al_map_rgb(0,0,0), 200, 200, NULL, "HOLA MUNDO");
 
-
-
-    // destroy_bitmap(prota);
-
+    // DESTRUCT PERSONAJE
     al_destroy_bitmap(prota);
 
-
-    // destroy_display(pantalla);
-
+    // DESTRUCT VENTANA
     al_destroy_display(ventana);
 
     return 0;
 }
+
