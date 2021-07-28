@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31424.327
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "COVIDRUN_REESTRUCTURED", "COVIDRUN_REESTRUCTURED.vcxproj", "{575D6106-A4A0-4337-B728-35CE6845EADB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{575D6106-A4A0-4337-B728-35CE6845EADB}.Debug|x64.ActiveCfg = Debug|x64
+		{575D6106-A4A0-4337-B728-35CE6845EADB}.Debug|x64.Build.0 = Debug|x64
+		{575D6106-A4A0-4337-B728-35CE6845EADB}.Debug|x86.ActiveCfg = Debug|Win32
+		{575D6106-A4A0-4337-B728-35CE6845EADB}.Debug|x86.Build.0 = Debug|Win32
+		{575D6106-A4A0-4337-B728-35CE6845EADB}.Release|x64.ActiveCfg = Release|x64
+		{575D6106-A4A0-4337-B728-35CE6845EADB}.Release|x64.Build.0 = Release|x64
+		{575D6106-A4A0-4337-B728-35CE6845EADB}.Release|x86.ActiveCfg = Release|Win32
+		{575D6106-A4A0-4337-B728-35CE6845EADB}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A3AD5620-C7F2-4521-8003-7E935B45FCEC}
+	EndGlobalSection
+EndGlobal
