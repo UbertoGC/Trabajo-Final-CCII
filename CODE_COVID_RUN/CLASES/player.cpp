@@ -1,43 +1,60 @@
 #include "player.h"
 
+bool jump = false;
+const float gravity = 4;
+float velY = 0;
+float jumpSpeed = 35;
+
 void player::inicia(escenario _playerEscenario) {
 	imgPlayer = al_load_bitmap("personaje.png");
 	tiempoPaso = int(_playerEscenario.getFPS() / getMueve());
 	tiempoCont = 0;
 	posX = 100;
-	posY = 480;
+	posY = 380;
 	direccion = 0;
 	paso = 0;
 }
 
 void player::teclas() {
-
+    desplazamiento = 4;
     ALLEGRO_KEYBOARD_STATE teclado;
     al_get_keyboard_state(&teclado);
 
-    if (al_key_down(&teclado, ALLEGRO_KEY_UP)) {
-        posY -= desplazamiento;
+    if (al_key_down(&teclado, ALLEGRO_KEY_UP) && jump) {
         direccion = 3;
-        tiempoCont++;
+        cout << "JUMPING" << endl;
+        velY = -jumpSpeed;
+        jump = false;
     }
-
-    if (al_key_down(&teclado, ALLEGRO_KEY_DOWN)) {
+    else if (al_key_down(&teclado, ALLEGRO_KEY_DOWN)) {
         posY += desplazamiento;
         direccion = 0;
         tiempoCont++;
     }
 
-    if (al_key_down(&teclado, ALLEGRO_KEY_LEFT)) {
+    else if (al_key_down(&teclado, ALLEGRO_KEY_LEFT)) {
         posX -= desplazamiento;
         direccion = 1;
         tiempoCont++;
     }
 
-    if (al_key_down(&teclado, ALLEGRO_KEY_RIGHT)) {
+    else if (al_key_down(&teclado, ALLEGRO_KEY_RIGHT)) {
         posX += desplazamiento;
         direccion = 2;
         tiempoCont++;
     }
+
+    if (!jump)
+        velY += gravity;
+    else
+        velY = 0;
+    
+    posY += velY;   
+
+    jump = (posY + 80 >= 560);
+
+    if (jump)
+        posY = 560 - 80;
 
     // limitadores
     if (posX < 0) posX = 0;
@@ -51,6 +68,7 @@ void player::teclas() {
     }
 
     if (paso > 2) paso = 0;
+    cout << posX << " " << posY << endl;
 }
 
 void player::pinta() {
