@@ -31,7 +31,6 @@ void player::teclas() {
         direccion = 0;
         tiempoCont++;
     }
-
     else if (al_key_down(&teclado, ALLEGRO_KEY_LEFT)) {
         posX -= desplazamiento;
         direccion = 1;
