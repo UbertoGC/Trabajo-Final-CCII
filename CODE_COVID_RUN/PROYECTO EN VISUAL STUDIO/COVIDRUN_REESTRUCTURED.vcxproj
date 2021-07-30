@@ -84,6 +84,17 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <Allegro_AddonImage>true</Allegro_AddonImage>
+    <Allegro_AddonTTF>true</Allegro_AddonTTF>
+    <Allegro_AddonPrimitives>true</Allegro_AddonPrimitives>
+    <Allegro_AddonAudio>true</Allegro_AddonAudio>
+    <Allegro_AddonAcodec>true</Allegro_AddonAcodec>
+    <Allegro_AddonPhysfs>true</Allegro_AddonPhysfs>
+    <Allegro_AddonDialog>true</Allegro_AddonDialog>
+    <Allegro_AddonMemfile>true</Allegro_AddonMemfile>
+    <Allegro_AddonFont>true</Allegro_AddonFont>
+    <Allegro_AddonColor>true</Allegro_AddonColor>
+    <Allegro_AddonVideo>true</Allegro_AddonVideo>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -148,14 +159,20 @@
     <ClCompile Include="base_game_CR.cpp" />
     <ClCompile Include="character.cpp" />
     <ClCompile Include="escenario.cpp" />
+    <ClCompile Include="escudo.cpp" />
     <ClCompile Include="initializer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="player.cpp" />
+    <ClCompile Include="objeto.cpp" />
+    <ClCompile Include="mascarilla.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="base_game_CR.h" />
     <ClInclude Include="character.h" />
     <ClInclude Include="escenario.h" />
+    <ClInclude Include="escudo.h" />
+    <ClInclude Include="mascarilla.h" />
+    <ClInclude Include="objeto.h" />
     <ClInclude Include="initializer.h" />
     <ClInclude Include="player.h" />
   </ItemGroup>
@@ -166,6 +183,8 @@
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\CODE_COVID_RUN\packages\AllegroDeps.1.12.0\build\native\AllegroDeps.targets" Condition="Exists('..\CODE_COVID_RUN\packages\AllegroDeps.1.12.0\build\native\AllegroDeps.targets')" />
     <Import Project="..\CODE_COVID_RUN\packages\Allegro.5.2.7\build\native\Allegro.targets" Condition="Exists('..\CODE_COVID_RUN\packages\Allegro.5.2.7\build\native\Allegro.targets')" />
+    <Import Project="packages\AllegroDeps.1.12.0\build\native\AllegroDeps.targets" Condition="Exists('packages\AllegroDeps.1.12.0\build\native\AllegroDeps.targets')" />
+    <Import Project="packages\Allegro.5.2.7\build\native\Allegro.targets" Condition="Exists('packages\Allegro.5.2.7\build\native\Allegro.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -173,5 +192,7 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\CODE_COVID_RUN\packages\AllegroDeps.1.12.0\build\native\AllegroDeps.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\CODE_COVID_RUN\packages\AllegroDeps.1.12.0\build\native\AllegroDeps.targets'))" />
     <Error Condition="!Exists('..\CODE_COVID_RUN\packages\Allegro.5.2.7\build\native\Allegro.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\CODE_COVID_RUN\packages\Allegro.5.2.7\build\native\Allegro.targets'))" />
+    <Error Condition="!Exists('packages\AllegroDeps.1.12.0\build\native\AllegroDeps.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\AllegroDeps.1.12.0\build\native\AllegroDeps.targets'))" />
+    <Error Condition="!Exists('packages\Allegro.5.2.7\build\native\Allegro.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Allegro.5.2.7\build\native\Allegro.targets'))" />
   </Target>
 </Project>

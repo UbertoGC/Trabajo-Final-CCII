@@ -1,43 +1,55 @@
 #include "player.h"
 
+bool jump = false;
+const float gravity = 4;
+float velY = 0;
+float jumpSpeed = 35;
+
 void player::inicia(escenario _playerEscenario) {
-	imgPlayer = al_load_bitmap("personaje.png");
-	tiempoPaso = int(_playerEscenario.getFPS() / getMueve());
-	tiempoCont = 0;
-	posX = 100;
-	posY = 480;
-	direccion = 0;
-	paso = 0;
+    imgPlayer = al_load_bitmap("personaje.png");
+    tiempoPaso = int(_playerEscenario.getFPS() / getMueve());
+    tiempoCont = 0;
+    posX = 120;
+    posY = 480;
+    direccion = 2;
+    paso = 0;
 }
 
 void player::teclas() {
-
+    desplazamiento = 4;
     ALLEGRO_KEYBOARD_STATE teclado;
     al_get_keyboard_state(&teclado);
 
-    if (al_key_down(&teclado, ALLEGRO_KEY_UP)) {
-        posY -= desplazamiento;
-        direccion = 3;
-        tiempoCont++;
+    if (al_key_down(&teclado, ALLEGRO_KEY_UP) && jump) {
+        velY = -jumpSpeed;
+        jump = false;
     }
-
-    if (al_key_down(&teclado, ALLEGRO_KEY_DOWN)) {
+    else if (al_key_down(&teclado, ALLEGRO_KEY_DOWN)) {
         posY += desplazamiento;
         direccion = 0;
         tiempoCont++;
     }
-
-    if (al_key_down(&teclado, ALLEGRO_KEY_LEFT)) {
-        posX -= desplazamiento;
+    else if (al_key_down(&teclado, ALLEGRO_KEY_LEFT)) {
         direccion = 1;
         tiempoCont++;
     }
 
-    if (al_key_down(&teclado, ALLEGRO_KEY_RIGHT)) {
-        posX += desplazamiento;
+    else if (al_key_down(&teclado, ALLEGRO_KEY_RIGHT)) {
         direccion = 2;
         tiempoCont++;
     }
+
+    if (!jump)
+        velY += gravity;
+    else
+        velY = 0;
+
+    posY += velY;
+
+    jump = (posY + 80 >= 560);
+
+    if (jump)
+        posY = 560 - 80;
 
     // limitadores
     if (posX < 0) posX = 0;
@@ -53,6 +65,16 @@ void player::teclas() {
     if (paso > 2) paso = 0;
 }
 
+void player::cambio() {
+    imgPlayer = al_load_bitmap("personaje(mascarilla).png");
+}
+
 void player::pinta() {
     al_draw_bitmap_region(imgPlayer, paso * 48, direccion * 48, 48, 48, posX, posY, 0);
+}
+int player::posiX() {
+    return posX;
+}
+int player::posiY() {
+    return posY;
 }
