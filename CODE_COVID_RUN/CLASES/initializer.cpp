@@ -13,6 +13,7 @@ void initializer::inicializar_modulos() {
     al_init_font_addon();
     al_init_ttf_addon();
     al_init_native_dialog_addon();
+    al_init_acodec_addon();
 
     initialization_modules = true;
 }
