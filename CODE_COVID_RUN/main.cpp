@@ -63,6 +63,57 @@ void juegoPrincipal(ALLEGRO_FONT* mainFont, escenario mainEscenario, player _pla
     }
     
 }
+
+int menuDelJuego(ALLEGRO_BITMAP* menu_null, ALLEGRO_BITMAP* menu_start, ALLEGRO_BITMAP* menu_salir, escenario mainEscenario, player& _player) {
+    int botones[] = { 0 };
+    int posXMouse = -1;
+    int posYMouse = -1;
+    ALLEGRO_EVENT evento;
+    bool repetir = true;
+    ALLEGRO_SAMPLE* sound;
+    al_reserve_samples(1);
+    sound = al_load_sample("backgroundMusic.wav");
+    al_play_sample(sound, 1.0, 0.5, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+    while (repetir) {
+        al_clear_to_color(al_map_rgb(255, 255, 255));
+        if (botones[0] == 0)
+            al_draw_bitmap(menu_null, 0, 0, 0);
+        else if (botones[0] == 1)
+            al_draw_bitmap(menu_start, 0, 0, 0);
+        else
+            al_draw_bitmap(menu_salir, 0, 0, 0);
+
+        al_wait_for_event(mainEscenario.getQueue(), &evento);
+
+        if (evento.type == ALLEGRO_EVENT_KEY_DOWN) {
+            if (evento.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
+                repetir = false;
+            }
+        }
+        if (evento.type == ALLEGRO_EVENT_MOUSE_AXES || evento.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) {
+            posXMouse = evento.mouse.x;
+            posYMouse = evento.mouse.y;
+            if (posXMouse >= 381 && posXMouse <= 644 && posYMouse >= 264 && posYMouse <= 336) {
+                botones[0] = 1;
+                if (evento.mouse.button & 1)
+                    juegoPrincipal(al_load_font("GAMERIA.ttf", 70, 0), mainEscenario, _player);
+            }
+            else if (posXMouse >= 393 && posXMouse <= 651 && posYMouse >= 428 && posYMouse <= 501) {
+                botones[0] = 2;
+                if (evento.mouse.button & 1) {
+                    al_destroy_sample(sound);
+                    return 1;
+                }
+            }
+            else {
+                botones[0] = 0;
+            }
+        }
+        al_flip_display();
+    }
+
+}
+
 int main() {
 
     //INICIALIZANDO ALLEGRO 5 Y SUS MODULOS
@@ -82,6 +133,8 @@ int main() {
 
     //INICIALIZACION DE CONTROLES EXTERNOS
     al_install_keyboard();
+    al_install_mouse();
+    al_install_audio();
 
     //CREACION DE LA VENTANA PRINCIPAL
     ALLEGRO_DISPLAY* mainVentana = al_create_display(800, 600);
@@ -103,12 +156,18 @@ int main() {
     al_register_event_source(mainEscenario.getQueue(), al_get_keyboard_event_source());
     al_register_event_source(mainEscenario.getQueue(), al_get_display_event_source(mainVentana));
     al_register_event_source(mainEscenario.getQueue(), al_get_timer_event_source(timerFramesPlayer));
+    al_register_event_source(mainEscenario.getQueue(), al_get_mouse_event_source());
     al_start_timer(timerFramesPlayer);
 
-    juegoPrincipal(mainFont, mainEscenario, mainPlayer);
+    ALLEGRO_BITMAP* menu_null = al_load_bitmap("menu_null.png");
+    ALLEGRO_BITMAP* menu_start = al_load_bitmap("menu_jugar.png");
+    ALLEGRO_BITMAP* menu_salir = al_load_bitmap("menu_salir.png");
+
+    menuDelJuego(menu_null, menu_start, menu_salir, mainEscenario, mainPlayer);
     
     al_destroy_display(mainVentana);
     al_destroy_font(mainFont);
     al_destroy_timer(timerFramesPlayer);
+
     return 0;
 }
