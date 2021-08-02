@@ -88,10 +88,10 @@ void juegoPrincipal(ALLEGRO_FONT* mainFont, escenario mainEscenario, player _pla
 int menuDelJuego(ALLEGRO_BITMAP* menu_null, ALLEGRO_BITMAP* menu_start, ALLEGRO_BITMAP* menu_salir, escenario mainEscenario, player& _player) {
     int tamano = 4;
     objeto* objetos[4];
-    objetos[0] = new mascarilla(480);
-    objetos[1] = new mascarilla(800);
+    objetos[0] = new mascarilla(240);
+    objetos[1] = new mascarilla(860);
     objetos[2] = new mascarilla(1120);
-    objetos[3] = new escudo(1600);
+    objetos[3] = new escudo(480);
     int botones[] = { 0 };
     int posXMouse = -1;
     int posYMouse = -1;
