@@ -74,7 +74,6 @@ void juegoPrincipal(ALLEGRO_FONT* mainFont, escenario mainEscenario, player _pla
             _player.teclas();
             for (int i = 0; i < _tamano; i++) {
                 if (_objetos[i] != nullptr) {
-                    _objetos[i]->movi();
                     if (_objetos[i]->efecto(_player) == 1) {
                         delete _objetos[i];
                         _objetos[i] = nullptr;

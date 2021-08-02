@@ -12,8 +12,6 @@ protected:
 	ALLEGRO_BITMAP* imgobj;
 
 public:
-	objeto(){};
-	void movi();
 	void pinta();
 	virtual int efecto(player&);
 };
