@@ -21,25 +21,22 @@ void player::teclas() {
     al_get_keyboard_state(&teclado);
 
     if (al_key_down(&teclado, ALLEGRO_KEY_UP) && jump) {
-        direccion = 3;
-        cout << "JUMPING" << endl;
         velY = -jumpSpeed;
         jump = false;
     }
     else if (al_key_down(&teclado, ALLEGRO_KEY_DOWN)) {
-        posY += desplazamiento;
         direccion = 0;
         tiempoCont++;
     }
     else if (al_key_down(&teclado, ALLEGRO_KEY_LEFT)) {
-        posX -= desplazamiento;
         direccion = 1;
+        posX -= desplazamiento;
         tiempoCont++;
     }
 
     else if (al_key_down(&teclado, ALLEGRO_KEY_RIGHT)) {
-        posX += desplazamiento;
         direccion = 2;
+        posX += desplazamiento;
         tiempoCont++;
     }
 
@@ -67,9 +64,35 @@ void player::teclas() {
     }
 
     if (paso > 2) paso = 0;
-    cout << posX << " " << posY << endl;
 }
-
+int& player::posiX() {
+    return posX;
+}
+int& player::posiY() {
+    return posY;
+}
+void player::cambio(int a) {
+    if (a == 1) {
+        estado[0] = true;
+    }
+    else if (a == 2) {
+        estado[1] = true;
+    }
+    if (estado[0] && estado[1]) {
+        imgPlayer = al_load_bitmap("personaje(mascarilla-escudo).png");
+    }
+    else if (!estado[0] && estado[1]) {
+        imgPlayer = al_load_bitmap("personaje(escudo).png");
+    }
+    else if (estado[0] && !estado[1]) {
+        imgPlayer = al_load_bitmap("personaje(mascarilla).png");
+    }
+    else {
+        imgPlayer = al_load_bitmap("personaje.png");
+    }
+}
 void player::pinta() {
     al_draw_bitmap_region(imgPlayer, paso * 48, direccion * 48, 48, 48, posX, posY, 0);
 }
+
+
