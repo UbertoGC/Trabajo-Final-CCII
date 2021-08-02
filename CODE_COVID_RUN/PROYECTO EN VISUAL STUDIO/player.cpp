@@ -16,7 +16,7 @@ void player::inicia(escenario _playerEscenario) {
 }
 
 void player::teclas() {
-    desplazamiento = 4;
+    desplazamiento = 6;
     ALLEGRO_KEYBOARD_STATE teclado;
     al_get_keyboard_state(&teclado);
 
@@ -89,6 +89,14 @@ void player::cambio(int a) {
     }
     else {
         imgPlayer = al_load_bitmap("personaje.png");
+    }
+}
+int &player::vida() {
+    return lifePoints;
+}
+void player::contagio() {
+    if (!estado[0]) {
+        lifePoints--;
     }
 }
 void player::pinta() {

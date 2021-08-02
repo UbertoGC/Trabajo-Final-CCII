@@ -3,6 +3,7 @@
 
 #include "character.h"
 #include "escenario.h"
+#include <string>
 
 class player : public character {
 
@@ -31,6 +32,7 @@ public:
 	int& posiY();
 	void cambio(int);
 	void pinta();
+	void contagio();
+	int& vida();
 };
-
 #endif

@@ -24,29 +24,29 @@ void pintaobj(player _player, objeto* _objetos[], int& _tamano) {
         }
     }
 }
-
+void vidalife(int &_lifePoints, ALLEGRO_FONT* _vidfuent, ALLEGRO_COLOR _vidcolor) {
+    al_draw_text(_vidfuent, _vidcolor, 20, 10, 0, to_string(_lifePoints).c_str());
+}
 void dibujarEscenarioBase(ALLEGRO_FONT* main_font, escenario mainEscenario, player _player, objeto *_objetos[], int &_tamano) {
     
     al_clear_to_color(mainEscenario.getColor());
     al_draw_bitmap(mainEscenario.getImagen(), 0, 0, 0);
     al_draw_text(main_font, al_map_rgb(0, 0, 0), 50, 520, 0, "COVID RUN 2021");
-
+    
     _player.pinta();
+    vidalife(_player.vida(),main_font, al_map_rgb(22, 22, 22));
     pintaobj(_player, _objetos, _tamano);
     al_flip_display();
 }
 
 void juegoPrincipal(ALLEGRO_FONT* mainFont, escenario mainEscenario, player _player, objeto* _objetos[], int& _tamano) {
-
     ALLEGRO_EVENT evento;
-
     bool repetir = true;
     bool dibujar = true;
-
+    int contador = 0;
     _player.inicia(mainEscenario);
 
     while (repetir) {
-
         //SE HACE LA PRIMERA PINCELADA SOBRE LA PANTALLA Y SE ESPERA ALGUN EVENTO
         if (dibujar && al_event_queue_is_empty(mainEscenario.getQueue())) {
             dibujarEscenarioBase(mainFont, mainEscenario, _player, _objetos, _tamano);
@@ -55,7 +55,6 @@ void juegoPrincipal(ALLEGRO_FONT* mainFont, escenario mainEscenario, player _pla
 
         // ESPERAMOS ALGUN EVENTOS
         al_wait_for_event(mainEscenario.getQueue(), &evento);
-
         // EN CASO SE CIERRE LA VENTANA SE TERMINA EL BUCLE
         if (evento.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
             repetir = false;
@@ -71,6 +70,11 @@ void juegoPrincipal(ALLEGRO_FONT* mainFont, escenario mainEscenario, player _pla
         // DESPUES DE UN DETERMINADO TIEMPO
         if (evento.type == ALLEGRO_EVENT_TIMER) {
             dibujar = true;
+            contador++;
+            if (contador == 60) {
+                _player.contagio();
+                contador = 0;
+            }
             _player.teclas();
             for (int i = 0; i < _tamano; i++) {
                 if (_objetos[i] != nullptr) {
@@ -86,12 +90,11 @@ void juegoPrincipal(ALLEGRO_FONT* mainFont, escenario mainEscenario, player _pla
 }
 
 int menuDelJuego(ALLEGRO_BITMAP* menu_null, ALLEGRO_BITMAP* menu_start, ALLEGRO_BITMAP* menu_salir, escenario mainEscenario, player& _player) {
-    int tamano = 4;
-    objeto* objetos[4];
+    int tamano = 3;
+    objeto* objetos[3];
     objetos[0] = new mascarilla(240);
     objetos[1] = new mascarilla(860);
-    objetos[2] = new mascarilla(1120);
-    objetos[3] = new escudo(480);
+    objetos[2] = new escudo(480);
     int botones[] = { 0 };
     int posXMouse = -1;
     int posYMouse = -1;
@@ -111,7 +114,6 @@ int menuDelJuego(ALLEGRO_BITMAP* menu_null, ALLEGRO_BITMAP* menu_start, ALLEGRO_
             al_draw_bitmap(menu_salir, 0, 0, 0);
 
         al_wait_for_event(mainEscenario.getQueue(), &evento);
-
         if (evento.type == ALLEGRO_EVENT_KEY_DOWN) {
             if (evento.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
                 repetir = false;
@@ -123,7 +125,7 @@ int menuDelJuego(ALLEGRO_BITMAP* menu_null, ALLEGRO_BITMAP* menu_start, ALLEGRO_
             if (posXMouse >= 381 && posXMouse <= 644 && posYMouse >= 264 && posYMouse <= 336) {
                 botones[0] = 1;
                 if (evento.mouse.button & 1)
-                    juegoPrincipal(al_load_font("GAMERIA.ttf", 70, 0), mainEscenario, _player, objetos, tamano);
+                    juegoPrincipal(al_load_font("GAMERIA.ttf", 50, 0), mainEscenario, _player, objetos, tamano);
             }
             else if (posXMouse >= 393 && posXMouse <= 651 && posYMouse >= 428 && posYMouse <= 501) {
                 botones[0] = 2;
@@ -186,13 +188,14 @@ int main() {
     //TEMPORIZADOR QUE CONTROLA FRAMES DEL PERSONAJE
     ALLEGRO_TIMER* timerFramesPlayer = NULL;
     timerFramesPlayer = al_create_timer(1.0 / mainEscenario.getFPS());
-
+    
     //REGISTRAR EVENTOS AL ESCENARIO PRINCIPAL
     al_register_event_source(mainEscenario.getQueue(), al_get_keyboard_event_source());
     al_register_event_source(mainEscenario.getQueue(), al_get_display_event_source(mainVentana));
     al_register_event_source(mainEscenario.getQueue(), al_get_timer_event_source(timerFramesPlayer));
     al_register_event_source(mainEscenario.getQueue(), al_get_mouse_event_source());
     al_start_timer(timerFramesPlayer);
+    
 
     ALLEGRO_BITMAP* menu_null = al_load_bitmap("menu_null.png");
     ALLEGRO_BITMAP* menu_start = al_load_bitmap("menu_jugar.png");
