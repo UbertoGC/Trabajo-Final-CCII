@@ -2,6 +2,6 @@
 escudo::escudo(int _posX) {
     imgobj = al_load_bitmap("escudo.png");
     posX = _posX;
-    posY = 482;
+    posY = 476;
     desplazamiento = 8;
 }
