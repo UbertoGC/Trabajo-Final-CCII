@@ -9,7 +9,7 @@ public:
 	mascarilla(int);
     int efecto(player &_player) {
         if (_player.posiX() + 24 >= posX && _player.posiX() <= posX + 24 && _player.posiY() + 2 == posY) {
-            _player.cambio();
+            _player.cambio(1);
             return 1;
         }
         else {

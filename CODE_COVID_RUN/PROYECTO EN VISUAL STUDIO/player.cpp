@@ -6,13 +6,13 @@ float velY = 0;
 float jumpSpeed = 35;
 
 void player::inicia(escenario _playerEscenario) {
-    imgPlayer = al_load_bitmap("personaje.png");
-    tiempoPaso = int(_playerEscenario.getFPS() / getMueve());
-    tiempoCont = 0;
-    posX = 120;
-    posY = 480;
-    direccion = 2;
-    paso = 0;
+	imgPlayer = al_load_bitmap("personaje.png");
+	tiempoPaso = int(_playerEscenario.getFPS() / getMueve());
+	tiempoCont = 0;
+	posX = 100;
+	posY = 380;
+	direccion = 0;
+	paso = 0;
 }
 
 void player::teclas() {
@@ -25,7 +25,6 @@ void player::teclas() {
         jump = false;
     }
     else if (al_key_down(&teclado, ALLEGRO_KEY_DOWN)) {
-        posY += desplazamiento;
         direccion = 0;
         tiempoCont++;
     }
@@ -43,8 +42,8 @@ void player::teclas() {
         velY += gravity;
     else
         velY = 0;
-
-    posY += velY;
+    
+    posY += velY;   
 
     jump = (posY + 80 >= 560);
 
@@ -64,17 +63,34 @@ void player::teclas() {
 
     if (paso > 2) paso = 0;
 }
-
-void player::cambio() {
-    imgPlayer = al_load_bitmap("personaje(mascarilla).png");
+int& player::posiX() {
+    return posX;
 }
-
+int& player::posiY() {
+    return posY;
+}
+void player::cambio(int a) {
+    if (a == 1) {
+        estado[0] = true;
+    }
+    else if (a == 2) {
+        estado[1] = true;
+    }
+    if (estado[0] && estado[1]) {
+        imgPlayer = al_load_bitmap("personaje(mascarilla-escudo).png");
+    }
+    else if (!estado[0] && estado[1]) {
+        imgPlayer = al_load_bitmap("personaje(escudo).png");
+    }
+    else if (estado[0] && !estado[1]) {
+        imgPlayer = al_load_bitmap("personaje(mascarilla).png");
+    }
+    else {
+        imgPlayer = al_load_bitmap("personaje.png");
+    }
+}
 void player::pinta() {
     al_draw_bitmap_region(imgPlayer, paso * 48, direccion * 48, 48, 48, posX, posY, 0);
 }
-int player::posiX() {
-    return posX;
-}
-int player::posiY() {
-    return posY;
-}
+
+
