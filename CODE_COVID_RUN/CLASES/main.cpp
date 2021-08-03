@@ -24,32 +24,37 @@ void pintaobj(player _player, objeto* _objetos[], int& _tamano) {
         }
     }
 }
-void vidalife(int &_lifePoints, ALLEGRO_FONT* _vidfuent, ALLEGRO_COLOR _vidcolor) {
-    al_draw_text(_vidfuent, _vidcolor, 20, 10, 0, to_string(_lifePoints).c_str());
+void vidalife(int &_lifePoints, ALLEGRO_FONT* _vidfuent, ALLEGRO_BITMAP * _vidimg) {
+    int m = 256 - (2*_lifePoints + 26);
+    int n = 2 * _lifePoints + 30;
+    ALLEGRO_COLOR vidcolor= al_map_rgb(m,n,80);
+    al_draw_text(_vidfuent, vidcolor, 70, 5, 0, (to_string(_lifePoints) + "+").c_str());
+    al_draw_bitmap(_vidimg, 0, 0, 0);
+    
 }
-void dibujarEscenarioBase(ALLEGRO_FONT* main_font, escenario mainEscenario, player _player, objeto *_objetos[], int &_tamano) {
+void dibujarEscenarioBase(ALLEGRO_FONT* main_font, escenario &mainEscenario, player _player, objeto *_objetos[], int &_tamano, ALLEGRO_BITMAP* _vidimg) {
     
     al_clear_to_color(mainEscenario.getColor());
-    al_draw_bitmap(mainEscenario.getImagen(), 0, 0, 0);
-    al_draw_text(main_font, al_map_rgb(0, 0, 0), 50, 520, 0, "COVID RUN 2021");
-    
+    mainEscenario.pintar();
+
     _player.pinta();
-    vidalife(_player.vida(),main_font, al_map_rgb(22, 22, 22));
+    vidalife(_player.vida(),main_font, _vidimg);
     pintaobj(_player, _objetos, _tamano);
     al_flip_display();
 }
 
-void juegoPrincipal(ALLEGRO_FONT* mainFont, escenario mainEscenario, player _player, objeto* _objetos[], int& _tamano) {
+void juegoPrincipal(ALLEGRO_FONT* mainFont, escenario &mainEscenario, player _player, objeto* _objetos[], int& _tamano) {
     ALLEGRO_EVENT evento;
     bool repetir = true;
     bool dibujar = true;
     int contador = 0;
+    ALLEGRO_BITMAP* vidimg = al_load_bitmap("corazon.png");
     _player.inicia(mainEscenario);
-
+    int n,m;
     while (repetir) {
         //SE HACE LA PRIMERA PINCELADA SOBRE LA PANTALLA Y SE ESPERA ALGUN EVENTO
         if (dibujar && al_event_queue_is_empty(mainEscenario.getQueue())) {
-            dibujarEscenarioBase(mainFont, mainEscenario, _player, _objetos, _tamano);
+            dibujarEscenarioBase(mainFont, mainEscenario, _player, _objetos, _tamano, vidimg);
             dibujar = false;
         }
 
@@ -75,9 +80,11 @@ void juegoPrincipal(ALLEGRO_FONT* mainFont, escenario mainEscenario, player _pla
                 _player.contagio();
                 contador = 0;
             }
-            _player.teclas();
+            m = _player.teclas();
+            n=mainEscenario.teclas(m);
             for (int i = 0; i < _tamano; i++) {
                 if (_objetos[i] != nullptr) {
+                    _objetos[i]->moviobj(n,m);
                     if (_objetos[i]->efecto(_player) == 1) {
                         delete _objetos[i];
                         _objetos[i] = nullptr;
@@ -85,6 +92,7 @@ void juegoPrincipal(ALLEGRO_FONT* mainFont, escenario mainEscenario, player _pla
                 }
             }
         }
+
     }
 
 }
@@ -93,7 +101,7 @@ int menuDelJuego(ALLEGRO_BITMAP* menu_null, ALLEGRO_BITMAP* menu_start, ALLEGRO_
     int tamano = 3;
     objeto* objetos[3];
     objetos[0] = new mascarilla(240);
-    objetos[1] = new mascarilla(860);
+    objetos[1] = new mascarilla(700);
     objetos[2] = new escudo(480);
     int botones[] = { 0 };
     int posXMouse = -1;

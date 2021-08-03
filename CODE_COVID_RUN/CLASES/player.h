@@ -27,7 +27,7 @@ public:
 	player(int _initX = 100, int _initY = 480, int _initDirec = 0, int _initPaso = 0, int _initTiempoPaso = 0, int _initTiempoCont = 0, ALLEGRO_BITMAP* initImg = nullptr) :
 		posX(_initX), posY(_initY), direccion(_initDirec), paso(_initPaso), tiempoPaso(_initTiempoPaso), tiempoCont(_initTiempoCont), imgPlayer(initImg) {}
 	void inicia(escenario);
-	void teclas();
+	int teclas();
 	int& posiX();
 	int& posiY();
 	void cambio(int);
