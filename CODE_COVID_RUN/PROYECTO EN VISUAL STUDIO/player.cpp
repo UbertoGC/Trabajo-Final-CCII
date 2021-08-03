@@ -9,13 +9,14 @@ void player::inicia(escenario _playerEscenario) {
 	imgPlayer = al_load_bitmap("personaje.png");
 	tiempoPaso = int(_playerEscenario.getFPS() / getMueve());
 	tiempoCont = 0;
-	posX = 100;
+	posX = 200;
 	posY = 380;
 	direccion = 0;
 	paso = 0;
 }
 
-void player::teclas() {
+int player::teclas() {
+    int m=0;
     desplazamiento = 6;
     ALLEGRO_KEYBOARD_STATE teclado;
     al_get_keyboard_state(&teclado);
@@ -53,8 +54,14 @@ void player::teclas() {
         posY = 560 - 80;
 
     // limitadores
-    if (posX < 0) posX = 0;
-    if (posX > 800 - 48) posX = 800 - 48;
+    if (posX < 200) { 
+        posX = 200;
+        m = 1;
+    }
+    if (posX > 800 - 248) {
+        posX = 800 - 248;
+        m = 2;
+    }
     if (posY < 0) posY = 0;
     if (posY > 600 - 48) posY = 600 - 48;
 
@@ -64,6 +71,7 @@ void player::teclas() {
     }
 
     if (paso > 2) paso = 0;
+    return m;
 }
 int& player::posiX() {
     return posX;
@@ -95,7 +103,7 @@ int &player::vida() {
     return lifePoints;
 }
 void player::contagio() {
-    if (!estado[0]) {
+    if (!estado[0] && lifePoints!=0) {
         lifePoints--;
     }
 }

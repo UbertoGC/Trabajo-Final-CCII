@@ -2,10 +2,12 @@
 #define ESCENARIO_H
 
 #include "base_game_CR.h"
+
 class escenario : public base_game_CR {
 protected:
 	int lvlEscenario;
 	int FPSGame;
+	int posX=0;
 
 	ALLEGRO_EVENT_QUEUE* eventosEscenario;
 	ALLEGRO_COLOR colorFondoEscenario;
@@ -32,5 +34,7 @@ public:
 	void setFondo(ALLEGRO_COLOR);
 	void setImage(ALLEGRO_BITMAP*);
 	void setFPS(int);
+	int teclas(int);
+	void pintar();
 };
 #endif
