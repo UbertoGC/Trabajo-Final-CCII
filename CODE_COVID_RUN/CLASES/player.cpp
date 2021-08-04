@@ -1,7 +1,7 @@
 #include "player.h"
 
 bool jump = false;
-const float gravity = 4;
+const float gravity = 3;
 float velY = 0;
 float jumpSpeed = 35;
 
@@ -14,7 +14,6 @@ void player::inicia(escenario _playerEscenario) {
 	direccion = 0;
 	paso = 0;
 }
-
 int player::teclas() {
     int m=0;
     desplazamiento = 6;
@@ -86,16 +85,31 @@ void player::cambio(int a) {
     else if (a == 2) {
         estado[1] = true;
     }
+    else if (a >= 3) {
+        if (estado[1]) {
+            estado[1] = false;
+        }
+        else {
+            lifePoints -= 10;
+            if (lifePoints <= 0) {
+                lifePoints = 0;
+            }
+        }
+    }
     if (estado[0] && estado[1]) {
+        al_destroy_bitmap(imgPlayer);
         imgPlayer = al_load_bitmap("personaje(mascarilla-escudo).png");
     }
     else if (!estado[0] && estado[1]) {
+        al_destroy_bitmap(imgPlayer);
         imgPlayer = al_load_bitmap("personaje(escudo).png");
     }
     else if (estado[0] && !estado[1]) {
+        al_destroy_bitmap(imgPlayer);
         imgPlayer = al_load_bitmap("personaje(mascarilla).png");
     }
     else {
+        al_destroy_bitmap(imgPlayer);
         imgPlayer = al_load_bitmap("personaje.png");
     }
 }

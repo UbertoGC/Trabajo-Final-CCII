@@ -36,6 +36,9 @@ void escenario::setImage(ALLEGRO_BITMAP* _newImage) {
 void escenario::setFPS(int _newFPS) {
 	FPSGame = _newFPS;
 }
+int escenario::limite() {
+	return posXdef;
+}
 int escenario::teclas(int m) {
 	int n = 0;
 	int desplazamiento = 6;
@@ -43,9 +46,11 @@ int escenario::teclas(int m) {
 	al_get_keyboard_state(&teclado);
 	if (al_key_down(&teclado, ALLEGRO_KEY_RIGHT)&&m==2) {
 		posX += desplazamiento;
+		posXdef -= desplazamiento;
 	}
 	else if (al_key_down(&teclado, ALLEGRO_KEY_LEFT)&&m==1) {
 		posX -= desplazamiento;
+		posXdef += desplazamiento;
 	}
 	if (posX < 0) { posX = 0; n = 1; }
 	if (posX > 400) { posX = 400; n = 2; }

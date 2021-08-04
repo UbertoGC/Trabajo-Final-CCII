@@ -14,6 +14,7 @@ protected:
 	int paso;
 	int tiempoPaso;
 	int tiempoCont;
+	
 	ALLEGRO_BITMAP* imgPlayer;
 
 	//VARIABLE DE INTERACCION CON EL ESCENARIO
