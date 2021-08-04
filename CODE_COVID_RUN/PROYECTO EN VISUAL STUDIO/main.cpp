@@ -38,6 +38,7 @@ void vidalife(int& _lifePoints, ALLEGRO_FONT* _vidfuent, ALLEGRO_BITMAP* _vidimg
 //GLOBAL VARIABLES
 int ANCHO = GetSystemMetrics(SM_CXSCREEN);
 int ALTO = GetSystemMetrics(SM_CYSCREEN);
+int continuejuego = 2;
 
 void dibujarEscenarioBase(ALLEGRO_FONT* main_font, escenario &mainEscenario, player &_player, objeto *_objetos[], int &_tamano, ALLEGRO_BITMAP* _vidimg, enfermo *_enfermos[], int &_tamano2) {
     
@@ -50,20 +51,18 @@ void dibujarEscenarioBase(ALLEGRO_FONT* main_font, escenario &mainEscenario, pla
     al_flip_display();
 }
 
-void juegoPrincipal(ALLEGRO_FONT* mainFont, escenario &mainEscenario, player &_player, objeto* _objetos[], int& _tamano, enfermo *_enfermos[], int &_tamano2) {
+void juegoPrincipal(ALLEGRO_FONT* mainFont, escenario &mainEscenario, player &_player, objeto* _objetos[], int& _tamano, enfermo *_enfermos[], int &_tamano2, ALLEGRO_BITMAP *_vidimg) {
     ALLEGRO_EVENT evento;
     bool repetir = true;
     bool dibujar = true;
     int contador = 0;
-    ALLEGRO_BITMAP* vidimg = al_load_bitmap("corazon.png");
-    _player.inicia(mainEscenario);
     int n, m;
     int s = _tamano;
     int s2 = _tamano2;
     while (repetir) {
         //SE HACE LA PRIMERA PINCELADA SOBRE LA PANTALLA Y SE ESPERA ALGUN EVENTO
         if (dibujar && al_event_queue_is_empty(mainEscenario.getQueue())) {
-            dibujarEscenarioBase(mainFont, mainEscenario, _player, _objetos, _tamano, vidimg, _enfermos, _tamano2);
+            dibujarEscenarioBase(mainFont, mainEscenario, _player, _objetos, _tamano, _vidimg, _enfermos, _tamano2);
             dibujar = false;
         }
 
@@ -123,8 +122,9 @@ void juegoPrincipal(ALLEGRO_FONT* mainFont, escenario &mainEscenario, player &_p
 
 }
 
-int menuDelJuego(ALLEGRO_BITMAP* menu_null, ALLEGRO_BITMAP* menu_start, ALLEGRO_BITMAP* menu_salir, escenario mainEscenario, player& _player) {
-
+int menuDelJuego(ALLEGRO_BITMAP* menu_null, ALLEGRO_BITMAP* menu_start, ALLEGRO_BITMAP* menu_salir, escenario &mainEscenario, player& _player) {
+    ALLEGRO_BITMAP* vidimg = al_load_bitmap("corazon.png");
+    _player.inicia(mainEscenario);
     int tamano = 2;
     int tamano2 = 4;
     objeto* objetos[2];
@@ -141,6 +141,7 @@ int menuDelJuego(ALLEGRO_BITMAP* menu_null, ALLEGRO_BITMAP* menu_start, ALLEGRO_
     ALLEGRO_EVENT evento;
     bool repetir = true;
     ALLEGRO_SAMPLE* sound;
+    ALLEGRO_FONT* fuente = al_load_font("GAMERIA.ttf", 50, 0);
     al_reserve_samples(1);
     sound = al_load_sample("backgroundMusic.wav");
     al_play_sample(sound, 1.0, 0.5, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
@@ -165,7 +166,7 @@ int menuDelJuego(ALLEGRO_BITMAP* menu_null, ALLEGRO_BITMAP* menu_start, ALLEGRO_
             if (posXMouse >= 381 && posXMouse <= 644 && posYMouse >= 264 && posYMouse <= 336) {
                 botones[0] = 1;
                 if (evento.mouse.button & 1)
-                    juegoPrincipal(al_load_font("GAMERIA.ttf", 50, 0), mainEscenario, _player, objetos, tamano, enfermos, tamano2);
+                    juegoPrincipal(fuente, mainEscenario, _player, objetos, tamano, enfermos, tamano2, vidimg);
             }
             else if (posXMouse >= 393 && posXMouse <= 651 && posYMouse >= 428 && posYMouse <= 501) {
                 botones[0] = 2;

@@ -54,6 +54,12 @@ int escenario::teclas(int m) {
 	}
 	if (posX < 0) { posX = 0; n = 1; }
 	if (posX > 400) { posX = 400; n = 2; }
+	if (posXdef > 0) {
+		posXdef = 0;
+	}
+	if (posX <-400) {
+		posXdef = -400;
+	}
 	return n;
 }
 void escenario::pintar() {
