@@ -10,7 +10,7 @@ void player::inicia(escenario _playerEscenario) {
 	tiempoPaso = int(_playerEscenario.getFPS() / getMueve());
 	tiempoCont = 0;
 	posX = 200;
-	posY = 380;
+	posY = 480;
 	direccion = 0;
 	paso = 0;
 }
@@ -68,7 +68,6 @@ int player::teclas() {
         paso++;
         tiempoCont = 0;
     }
-
     if (paso > 2) paso = 0;
     return m;
 }
@@ -96,20 +95,17 @@ void player::cambio(int a) {
             }
         }
     }
+    al_destroy_bitmap(imgPlayer);
     if (estado[0] && estado[1]) {
-        al_destroy_bitmap(imgPlayer);
         imgPlayer = al_load_bitmap("personaje(mascarilla-escudo).png");
     }
     else if (!estado[0] && estado[1]) {
-        al_destroy_bitmap(imgPlayer);
         imgPlayer = al_load_bitmap("personaje(escudo).png");
     }
     else if (estado[0] && !estado[1]) {
-        al_destroy_bitmap(imgPlayer);
         imgPlayer = al_load_bitmap("personaje(mascarilla).png");
     }
     else {
-        al_destroy_bitmap(imgPlayer);
         imgPlayer = al_load_bitmap("personaje.png");
     }
 }
