@@ -7,14 +7,14 @@ class mascarilla : public objeto {
 
 public:
     mascarilla(int);
-    void efecto(player& _player) {
+    int efecto(player& _player) {
         if (_player.getposX() + 24 >= posX && _player.getposX() <= posX + 24 && _player.getposY() + 2 == posY) {
             _player.cambio(1);
-            uso = true;
+            return 1;
         }
-    }
-    void finalobj(player& _player) {
-        _player.cambio(3);
+        else {
+            return 0;
+        }
     }
 
 };
