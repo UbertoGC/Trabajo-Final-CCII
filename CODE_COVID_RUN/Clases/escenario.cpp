@@ -7,7 +7,7 @@ bool escenario::gameOver(int _playerVida, bool _gameStarted) {
 		return false;
 }
 void escenario::defaultEscenario() {
-	imagenFondoEscenario = al_load_bitmap("escenario.jpg");
+	imagenFondoEscenario = al_load_bitmap("escenario.png");
 	colorFondoEscenario = al_map_rgb(255,255,255);
 	FPSGame = 60;
 	eventosEscenario = al_create_event_queue();
@@ -60,18 +60,47 @@ int escenario::teclas(int m) {
 		posX -= desplazamiento;
 		posXdef += desplazamiento;
 	}
-	if (posX < 0) { posX = 0; n = 1; }
-	if (posX > 400) { posX = 400; n = 2; }
+	if (posX < 0) {
+		if (vuelta == 0) {
+			posX = 0;
+			n = 1;
+		}
+	}
+	if (posX < 460) { 
+		if(vuelta>0) {
+			posX2 = 3;
+			posX3 = 460 - posX;
+			posX4 = 3827 - posX3-1;
+			if (posX < -340) {
+				posX2 = 802;
+				posX = 3027;
+				vuelta--;
+			}
+		}
+		
+	}
+	if (posX > 3027) {
+		posX4 = 462;
+		posX2 = 3827 - posX;
+		posX3 = posX - 3027+10;
+	}
+	if (posX >= 3827) {
+		vuelta += 1;
+		posX = 460;
+		posX2 = 802;
+	}
 	if (posXdef > 0) {
 		posXdef = 0;
 	}
-	if (posX < -400) {
-		posXdef = -400;
+	if (posXdef < -3827) {
+		posXdef = -3827;
+	}
+	if (posX <= 3027 && posX >= 460) {
+		posX3 = 0;
 	}
 	return n;
 }
-
 void escenario::pintar() {
-	al_draw_bitmap_region(imagenFondoEscenario, posX, 0, posX + 800, 600, 0, 0, 0);
-	al_draw_bitmap(imagenPiso, 0, 525, 0);
+	al_draw_bitmap_region(imagenFondoEscenario, posX, 0, 800, 600, 0, 0, 0);
+	al_draw_bitmap_region(imagenFondoEscenario, posX4, 0, posX3, 600, posX2-2, 0, 0);
 }

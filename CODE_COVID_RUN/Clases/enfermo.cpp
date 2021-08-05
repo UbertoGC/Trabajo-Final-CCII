@@ -1,7 +1,7 @@
 #include "enfermo.h"
 void enfermo::efecto(player& _player) {
 	if (_player.getposX() + 30 >= posX && _player.getposX() <= posX + 30 && _player.getposY() + 40 >= posY && _player.getposY() <= posY + 40 && afeccion == 0) {
-		_player.cambio(3);
+		_player.cambio(5);
 		afeccion = 1;
 	}
 	else if (((_player.getposX() + 30 < posX || _player.getposX() > posX + 30) || (_player.getposY() + 40 < posY || _player.getposY() > posY + 40)) && afeccion == 1) {

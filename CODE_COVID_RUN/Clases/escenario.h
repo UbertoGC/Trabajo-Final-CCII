@@ -6,6 +6,10 @@ class escenario : public base_game_CR {
 protected:
 	int lvlEscenario;
 	int FPSGame;
+	int posX2 = 802;
+	int posX3 = 460;
+	int posX4=0;
+	int vuelta = 0;
 	int posX = 0;
 	int posXdef = 0;
 	ALLEGRO_EVENT_QUEUE* eventosEscenario;

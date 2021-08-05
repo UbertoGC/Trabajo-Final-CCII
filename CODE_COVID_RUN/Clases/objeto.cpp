@@ -14,6 +14,22 @@ void objeto::moviobj(int n, int m) {
 void objeto::pinta() {
 	al_draw_bitmap(imgobj, posX, posY, 0);
 }
-int objeto::efecto(player& _player) {
-	return 0;
+void objeto::efecto(player& _player) {
+}
+void objeto::finalobj(player& player) {
+}
+bool objeto::usandose() {
+	return uso;
+}
+int objeto::durarest() {
+	return duracion;
+}
+void objeto::bajandotiem() {
+	duracion--;
+}
+int objeto::tipoclase() {
+	return tipo;
+}
+void objeto::cambiodura(int a) {
+	duracion = a;
 }

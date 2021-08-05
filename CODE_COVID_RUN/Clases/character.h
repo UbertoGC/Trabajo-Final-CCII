@@ -15,7 +15,7 @@ protected:
 	string type;
 public:
 	//CONSTRUCTOR
-	character(int _initDesplaza = 2, int _initMueve = 18, int _initLife = 20, int _initLevel = 1, string _initName = "character",
+	character(int _initDesplaza = 2, int _initMueve = 18, int _initLife = 100, int _initLevel = 1, string _initName = "character",
 		string _initDialog = "dialog", string _type = "type") : desplazamiento(_initDesplaza), mueve(_initMueve),
 		lifePoints(_initLife), level(_initLevel), name(_initName), dialog(_initDialog), type(_initDialog) {}
 

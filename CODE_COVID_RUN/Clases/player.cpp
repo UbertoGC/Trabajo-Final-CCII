@@ -5,7 +5,7 @@ void player::inicia(escenario _playerEscenario) {
 	tiempoPaso = int(_playerEscenario.getFPS() / getMueve());
 	tiempoCont = 0;
 	posX = 100;
-	posY = 380;
+	posY = 480;
 	direccion = 0;
 	paso = 0;
 }
@@ -77,12 +77,19 @@ void player::cambio(int a) {
     else if (a == 2) {
         estado[1] = true;
     }
-    else if (a >= 3) {
+    else if (a == 3) {
+        estado[0] = false;
+    }
+    else if (a == 4) {
+        estado[1] = false;
+    }
+    else if (a >= 5) {
         if (estado[1]) {
+            choquescudo = true;
             estado[1] = false;
         }
         else {
-            lifePoints -= 4;
+            lifePoints -= 10;
             if (lifePoints <= 0) {
                 lifePoints = 0;
             }
@@ -115,4 +122,7 @@ void player::contagio() {
 
 void player::pinta() {
     al_draw_bitmap_region(imgPlayer, paso * 48, direccion * 48, 48, 48, posX, posY, 0);
+}
+bool player::choquescud() {
+    return choquescudo;
 }

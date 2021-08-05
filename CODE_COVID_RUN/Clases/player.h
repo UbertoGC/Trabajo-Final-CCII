@@ -24,13 +24,13 @@ protected:
 
 	//VARIABLE DE INTERACCION CON OBJETOS
 	bool estado[2] = { false,false };
+	bool choquescudo = false;
 
 public:
 	player(int _initX = 100, int _initY = 480, int _initDirec = 0, int _initPaso = 0, int _initTiempoPaso = 0, int _initTiempoCont = 0, ALLEGRO_BITMAP* _initImg = nullptr) :
 		posX(_initX), posY(_initY), direccion(_initDirec), paso(_initPaso), tiempoPaso(_initTiempoPaso), tiempoCont(_initTiempoCont), imgPlayer(_initImg) {}
 
 	void inicia(escenario);
-	// void teclas();
 	int teclas();
 	int getposX() { return posX; }
 	int getposY() { return posY; }
@@ -38,6 +38,7 @@ public:
 	void pinta();
 	void contagio();
 	int& vida();
+	bool choquescud();
 };
 
 #endif
