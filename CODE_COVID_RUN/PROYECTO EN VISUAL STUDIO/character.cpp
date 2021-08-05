@@ -1,5 +1,9 @@
 #include "character.h"
 
+void character::setLifePoints(int _life) {
+	lifePoints = _life;
+}
+
 void character::setLevel(int _level) {
 	level = _level;
 }

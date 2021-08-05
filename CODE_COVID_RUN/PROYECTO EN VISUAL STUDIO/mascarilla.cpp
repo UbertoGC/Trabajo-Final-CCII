@@ -4,4 +4,6 @@ mascarilla::mascarilla(int _posX) {
     posX = _posX;
     posY = 482;
     desplazamiento = 8;
+    duracion = 15;
+    tipo = 1;
 }

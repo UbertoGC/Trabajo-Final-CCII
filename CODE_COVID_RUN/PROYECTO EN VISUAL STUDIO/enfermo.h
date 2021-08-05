@@ -5,7 +5,7 @@
 #include "escenario.h"
 #include <string>
 
-class enfermo:public character {
+class enfermo :public character {
 
 protected:
 	//VARIABLES DEL JUGADOR
@@ -15,7 +15,7 @@ protected:
 	ALLEGRO_BITMAP* imgenemigo;
 	int tiempoPaso;
 	int tiempoCont = 0;
-	int paso=1;
+	int paso = 1;
 	int afeccion = 0;
 	bool movi[2];
 	bool jump2 = false;
@@ -24,7 +24,7 @@ protected:
 	float jumpSpeed2 = 35;
 
 public:
-	enfermo(escenario _playerEscenario, bool _par1, bool _par2, int _initX){
+	enfermo(escenario _playerEscenario, bool _par1, bool _par2, int _initX) {
 		imgenemigo = al_load_bitmap("enfermo.png");
 		tiempoPaso = int(_playerEscenario.getFPS() / getMueve());
 		tiempoCont = 0;
@@ -41,3 +41,4 @@ public:
 	void pinta();
 };
 #endif
+

@@ -156,16 +156,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="base_game_CR.cpp" />
     <ClCompile Include="character.cpp" />
     <ClCompile Include="enfermo.cpp" />
     <ClCompile Include="escenario.cpp" />
     <ClCompile Include="escudo.cpp" />
+    <ClCompile Include="estructuras.cpp" />
     <ClCompile Include="initializer.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="player.cpp" />
-    <ClCompile Include="objeto.cpp" />
     <ClCompile Include="mascarilla.cpp" />
+    <ClCompile Include="objeto.cpp" />
+    <ClCompile Include="player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="base_game_CR.h" />
@@ -173,13 +177,11 @@
     <ClInclude Include="enfermo.h" />
     <ClInclude Include="escenario.h" />
     <ClInclude Include="escudo.h" />
+    <ClInclude Include="estructuras.h" />
+    <ClInclude Include="initializer.h" />
     <ClInclude Include="mascarilla.h" />
     <ClInclude Include="objeto.h" />
-    <ClInclude Include="initializer.h" />
     <ClInclude Include="player.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

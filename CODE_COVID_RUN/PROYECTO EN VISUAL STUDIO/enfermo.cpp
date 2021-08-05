@@ -1,10 +1,10 @@
 #include "enfermo.h"
-void enfermo::efecto(player &_player) {
-	if (_player.posiX() + 30 >= posX && _player.posiX() <= posX + 30 && _player.posiY() + 40 >= posY && _player.posiY() <= posY + 40 && afeccion==0) {
-		_player.cambio(3);
+void enfermo::efecto(player& _player) {
+	if (_player.getposX() + 30 >= posX && _player.getposX() <= posX + 30 && _player.getposY() + 40 >= posY && _player.getposY() <= posY + 40 && afeccion == 0) {
+		_player.cambio(5);
 		afeccion = 1;
 	}
-	else if (((_player.posiX() + 30 < posX || _player.posiX() > posX + 30) || (_player.posiY() + 40 < posY || _player.posiY() > posY + 40)) && afeccion == 1) {
+	else if (((_player.getposX() + 30 < posX || _player.getposX() > posX + 30) || (_player.getposY() + 40 < posY || _player.getposY() > posY + 40)) && afeccion == 1) {
 		afeccion = 0;
 	}
 }
@@ -18,7 +18,7 @@ void enfermo::movienf(int m, int n) {
 			direccion = 2;
 			tiempoCont++;
 		}
-		else{
+		else {
 			posX -= movimiento;
 			direccion = 1;
 			tiempoCont++;
@@ -62,8 +62,8 @@ void enfermo::movienf(int m, int n) {
 			posX += desplazamiento;
 		}
 	}
-	
+
 }
 void enfermo::pinta() {
-	al_draw_bitmap_region(imgenemigo,48*paso,48*direccion,48,48,posX,posY,0);
+	al_draw_bitmap_region(imgenemigo, 48 * paso, 48 * direccion, 48, 48, posX, posY, 0);
 }

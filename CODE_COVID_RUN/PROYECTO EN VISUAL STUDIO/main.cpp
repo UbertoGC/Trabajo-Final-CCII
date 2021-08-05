@@ -23,7 +23,9 @@ void pintaenem(player _player, enfermo* _enfermos[], int _tamano) {
 void pintaobj(player _player, objeto* _objetos[], int& _tamano) {
     for (int i = 0; i < _tamano; i++) {
         if (_objetos[i] != nullptr) {
-            _objetos[i]->pinta();
+            if (!_objetos[i]->usandose()) {
+                _objetos[i]->pinta();
+            }
         }
     }
 }
@@ -40,12 +42,11 @@ int ANCHO = GetSystemMetrics(SM_CXSCREEN);
 int ALTO = GetSystemMetrics(SM_CYSCREEN);
 int continuejuego = 2;
 
-void dibujarEscenarioBase(ALLEGRO_FONT* main_font, escenario &mainEscenario, player &_player, objeto *_objetos[], int &_tamano, ALLEGRO_BITMAP* _vidimg, enfermo *_enfermos[], int &_tamano2) {
-    
+void dibujarEscenarioBase(ALLEGRO_FONT* main_font, escenario& mainEscenario, player& _player, objeto* _objetos[], int& _tamano, ALLEGRO_BITMAP* _vidimg, enfermo* _enfermos[], int& _tamano2) {
     al_clear_to_color(mainEscenario.getColor());
     mainEscenario.pintar();
     _player.pinta();
-    vidalife(_player.vida(),main_font, _vidimg);
+    vidalife(_player.vida(), main_font, _vidimg);
     pintaobj(_player, _objetos, _tamano);
     pintaenem(_player, _enfermos, _tamano2);
     al_flip_display();
@@ -58,7 +59,10 @@ void juegoPrincipal(ALLEGRO_FONT* mainFont, escenario &mainEscenario, player &_p
     int contador = 0;
     int n, m;
     int s = _tamano;
-    int s2 = _tamano2;
+    int* s2 = new int[_tamano];
+    for (int i = 0; i < _tamano; i++) {
+        s2[i] = 100;
+    }
     while (repetir) {
         //SE HACE LA PRIMERA PINCELADA SOBRE LA PANTALLA Y SE ESPERA ALGUN EVENTO
         if (dibujar && al_event_queue_is_empty(mainEscenario.getQueue())) {
@@ -71,12 +75,14 @@ void juegoPrincipal(ALLEGRO_FONT* mainFont, escenario &mainEscenario, player &_p
         // EN CASO SE CIERRE LA VENTANA SE TERMINA EL BUCLE
         if (evento.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
             repetir = false;
+            delete[] s2;
         }
 
         // EN CASO SE PULSE LA TECLA ESC SE TERMINA EL BUCLE
         if (evento.type == ALLEGRO_EVENT_KEY_DOWN) {
             if (evento.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
                 repetir = false;
+                delete[] s2;
             }
         }
 
@@ -87,7 +93,6 @@ void juegoPrincipal(ALLEGRO_FONT* mainFont, escenario &mainEscenario, player &_p
             if (contador == 60) {
                 _player.contagio();
                 contador = 0;
-                
             }
             m = _player.teclas();
             n = mainEscenario.teclas(m);
@@ -95,8 +100,24 @@ void juegoPrincipal(ALLEGRO_FONT* mainFont, escenario &mainEscenario, player &_p
                 s = 2;
                 for (int i = 0; i < _tamano; i++) {
                     if (_objetos[i] != nullptr) {
-                        _objetos[i]->moviobj(n, m);
-                        if (_objetos[i]->efecto(_player) == 1) {
+                        if (!_objetos[i]->usandose()) {
+                            _objetos[i]->moviobj(n, m);
+                            _objetos[i]->efecto(_player);
+                        }
+                        else {
+                            if (s2[i] == 100) {
+                                s2[i] = contador;
+                            }
+                            if (contador == s2[i]) {
+                                cout << _objetos[i]->durarest()<<endl;
+                                _objetos[i]->bajandotiem();
+                            }
+                            if (_objetos[i]->tipoclase() == 2 && _player.choquescud()) {
+                                _objetos[i]->cambiodura(0);
+                            }
+                        }
+                        if ( _objetos[i]->durarest()== 0) {
+                            _objetos[i]->finalobj(_player);
                             delete _objetos[i];
                             _objetos[i] = nullptr;
                         }
@@ -116,7 +137,6 @@ void juegoPrincipal(ALLEGRO_FONT* mainFont, escenario &mainEscenario, player &_p
                     }
                 }
             }
-            
         }
     }
 

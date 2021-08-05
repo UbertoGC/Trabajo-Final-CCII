@@ -7,15 +7,14 @@ class escudo : public objeto {
 
 public:
     escudo(int);
-    int efecto(player& _player) {
-        if (_player.posiX() + 30 >= posX && _player.posiX() <= posX + 40 && _player.posiY() -4 == posY) {
+    void efecto(player& _player) {
+        if (_player.getposX() + 30 >= posX && _player.getposX() <= posX + 40 && _player.getposY() - 4 == posY) {
             _player.cambio(2);
-            return 1;
-        }
-        else {
-            return 0;
+            uso = true;
         }
     }
-
+    void finalobj(player& _player) {
+        _player.cambio(4);
+    }
 };
 #endif

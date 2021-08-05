@@ -12,6 +12,8 @@ using namespace std;
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_audio.h>
 #include <allegro5/allegro_acodec.h>
+#include<stdlib.h>
+#include<time.h>
 
 class base_game_CR {
 protected:

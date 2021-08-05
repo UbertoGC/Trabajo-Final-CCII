@@ -3,10 +3,9 @@
 
 #include "character.h"
 #include "escenario.h"
-#include <string>
 
 class player : public character {
-
+	friend class escenario;
 protected:
 	//VARIABLES DEL JUGADOR
 	int posX, posY;
@@ -14,26 +13,32 @@ protected:
 	int paso;
 	int tiempoPaso;
 	int tiempoCont;
-	
-	ALLEGRO_BITMAP* imgPlayer;
 
-	//VARIABLE DE INTERACCION CON EL ESCENARIO
-	bool mayJumpAgain = false;
-	bool isOnSolidGround = false;
+	// VARIABLES DE INTERACCION CON EL ESCENARIO
+	bool goBack = false;
+	bool solidGround = false;
+	const float gravity = 3.5;
+	float velY = 0;
+	float jumpSpeed = 35;
+	ALLEGRO_BITMAP* imgPlayer;
 
 	//VARIABLE DE INTERACCION CON OBJETOS
 	bool estado[2] = { false,false };
+	bool choquescudo = false;
 
 public:
-	player(int _initX = 100, int _initY = 480, int _initDirec = 0, int _initPaso = 0, int _initTiempoPaso = 0, int _initTiempoCont = 0, ALLEGRO_BITMAP* initImg = nullptr) :
-		posX(_initX), posY(_initY), direccion(_initDirec), paso(_initPaso), tiempoPaso(_initTiempoPaso), tiempoCont(_initTiempoCont), imgPlayer(initImg) {}
+	player(int _initX = 100, int _initY = 480, int _initDirec = 0, int _initPaso = 0, int _initTiempoPaso = 0, int _initTiempoCont = 0, ALLEGRO_BITMAP* _initImg = nullptr) :
+		posX(_initX), posY(_initY), direccion(_initDirec), paso(_initPaso), tiempoPaso(_initTiempoPaso), tiempoCont(_initTiempoCont), imgPlayer(_initImg) {}
+
 	void inicia(escenario);
 	int teclas();
-	int& posiX();
-	int& posiY();
+	int getposX() { return posX; }
+	int getposY() { return posY; }
 	void cambio(int);
 	void pinta();
 	void contagio();
 	int& vida();
+	bool choquescud();
 };
+
 #endif

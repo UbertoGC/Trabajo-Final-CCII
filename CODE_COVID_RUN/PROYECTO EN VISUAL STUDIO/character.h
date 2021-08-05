@@ -2,6 +2,7 @@
 #define __CHARACTER_H__
 
 #include "base_game_CR.h"
+
 class character : public base_game_CR {
 protected:
 	int desplazamiento;
@@ -19,6 +20,7 @@ public:
 		lifePoints(_initLife), level(_initLevel), name(_initName), dialog(_initDialog), type(_initDialog) {}
 
 	//SET ATRIBUTES
+	void setLifePoints(int);
 	void setName(string);
 	void setDialog(string);
 	void setType(string);
