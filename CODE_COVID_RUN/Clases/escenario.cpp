@@ -8,12 +8,11 @@ bool escenario::gameOver(int _playerVida, bool _gameStarted) {
 }
 void escenario::defaultEscenario() {
 	imagenFondoEscenario = al_load_bitmap("escenario.png");
-	colorFondoEscenario = al_map_rgb(255,255,255);
+	colorFondoEscenario = al_map_rgb(255, 255, 255);
 	FPSGame = 60;
 	eventosEscenario = al_create_event_queue();
 	imagenPiso = al_load_bitmap("pisoCiudad.jpg");
 }
-
 
 int escenario::getlvlEscenario() {
 	return lvlEscenario;
@@ -47,6 +46,7 @@ void escenario::setFPS(int _newFPS) {
 int escenario::limite() {
 	return posXdef;
 }
+
 int escenario::teclas(int m) {
 	int n = 0;
 	int desplazamiento = 6;
@@ -66,23 +66,23 @@ int escenario::teclas(int m) {
 			n = 1;
 		}
 	}
-	if (posX < 460) { 
-		if(vuelta>0) {
+	if (posX < 460) {
+		if (vuelta > 0) {
 			posX2 = 3;
 			posX3 = 460 - posX;
-			posX4 = 3827 - posX3-1;
+			posX4 = 3827 - posX3 - 1;
 			if (posX < -340) {
 				posX2 = 802;
 				posX = 3027;
 				vuelta--;
 			}
 		}
-		
+
 	}
 	if (posX > 3027) {
 		posX4 = 462;
 		posX2 = 3827 - posX;
-		posX3 = posX - 3027+10;
+		posX3 = posX - 3027 + 10;
 	}
 	if (posX >= 3827) {
 		vuelta += 1;
@@ -100,7 +100,9 @@ int escenario::teclas(int m) {
 	}
 	return n;
 }
+
 void escenario::pintar() {
-	al_draw_bitmap_region(imagenFondoEscenario, posX, 0, 800, 600, 0, 0, 0);
-	al_draw_bitmap_region(imagenFondoEscenario, posX4, 0, posX3, 600, posX2-2, 0, 0);
+	al_draw_bitmap_region(imagenFondoEscenario, posX, 0, posX + 800, 600, 0, 0, 0);
+	al_draw_bitmap_region(imagenFondoEscenario, posX4, 0, posX3, 600, posX2 - 2, 0, 0);
+	// al_draw_bitmap(imagenPiso, 0, 525, 0);
 }
