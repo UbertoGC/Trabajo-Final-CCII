@@ -14,7 +14,8 @@ void objeto::moviobj(int n, int m) {
 void objeto::pinta() {
 	al_draw_bitmap(imgobj, posX, posY, 0);
 }
-void objeto::efecto(player& _player) {
+int objeto::efecto(player& _player) {
+	return 0;
 }
 void objeto::finalobj(player& player) {
 }
