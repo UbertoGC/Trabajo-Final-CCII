@@ -1,4 +1,3 @@
-
 #ifndef __OBJETO_H__
 #define __OBJETO_H__
 
@@ -10,7 +9,7 @@ protected:
 	//VARIABLES DEL OBJETO
 	int tipo;
 	int duracion;
-	bool uso=false;
+	bool uso = false;
 	int posX, posY;
 	int desplazamiento;
 	ALLEGRO_BITMAP* imgobj;
@@ -18,7 +17,7 @@ protected:
 public:
 	void moviobj(int, int);
 	void pinta();
-	virtual void efecto(player&);
+	virtual int efecto(player&);
 	virtual void finalobj(player&);
 	bool usandose();
 	int durarest();
@@ -27,4 +26,3 @@ public:
 	void cambiodura(int);
 };
 #endif
-
