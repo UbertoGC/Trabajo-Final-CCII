@@ -104,5 +104,5 @@ int escenario::teclas(int m) {
 void escenario::pintar() {
 	al_draw_bitmap_region(imagenFondoEscenario, posX, 0, posX + 800, 600, 0, 0, 0);
 	al_draw_bitmap_region(imagenFondoEscenario, posX4, 0, posX3, 600, posX2 - 2, 0, 0);
-	// al_draw_bitmap(imagenPiso, 0, 525, 0);
+	al_draw_bitmap(imagenPiso, 0, 525, 0);
 }
