@@ -41,4 +41,3 @@ public:
 	void pinta();
 };
 #endif
-
