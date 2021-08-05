@@ -8,7 +8,7 @@ protected:
 	int FPSGame;
 	int posX2 = 802;
 	int posX3 = 460;
-	int posX4=0;
+	int posX4 = 0;
 	int vuelta = 0;
 	int posX = 0;
 	int posXdef = 0;
@@ -19,10 +19,10 @@ protected:
 public:
 	//CONSTRUCTOR
 	explicit escenario(int _lvlInit = 1, int _fpsInit = 60, ALLEGRO_EVENT_QUEUE* _initEvent = nullptr,
-		ALLEGRO_COLOR _initColor = al_map_rgb(255,255,255), ALLEGRO_BITMAP* _initEscenario = nullptr,
-		int init_posX = 0, int init_posY=0, ALLEGRO_BITMAP* _initPiso = nullptr)
+		ALLEGRO_COLOR _initColor = al_map_rgb(255, 255, 255), ALLEGRO_BITMAP* _initEscenario = nullptr,
+		int init_posX = 0, int init_posY = 0, ALLEGRO_BITMAP* _initPiso = nullptr)
 		: lvlEscenario(_lvlInit), FPSGame(_fpsInit), eventosEscenario(_initEvent),
-		colorFondoEscenario(_initColor), imagenFondoEscenario(_initEscenario), posX(init_posX), imagenPiso(_initPiso){
+		colorFondoEscenario(_initColor), imagenFondoEscenario(_initEscenario), posX(init_posX), imagenPiso(_initPiso) {
 	}
 
 	//FUNCTIONS
