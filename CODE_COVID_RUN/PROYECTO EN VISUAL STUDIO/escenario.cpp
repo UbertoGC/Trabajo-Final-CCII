@@ -47,6 +47,7 @@ void escenario::setFPS(int _newFPS) {
 int escenario::limite() {
 	return posXdef;
 }
+
 int escenario::teclas(int m) {
 	int n = 0;
 	int desplazamiento = 6;
@@ -61,13 +62,13 @@ int escenario::teclas(int m) {
 		posXdef += desplazamiento;
 	}
 	if (posX < 0) {
-		if (vuelta == 0) {
+		if (vuelta == 0||vuelta%2==0) {
 			posX = 0;
 			n = 1;
 		}
 	}
 	if (posX < 460) { 
-		if(vuelta>0) {
+		if(vuelta>0&&(!vuelta%2==0)) {
 			posX2 = 3;
 			posX3 = 460 - posX;
 			posX4 = 3827 - posX3-1;
@@ -103,4 +104,5 @@ int escenario::teclas(int m) {
 void escenario::pintar() {
 	al_draw_bitmap_region(imagenFondoEscenario, posX, 0, 800, 600, 0, 0, 0);
 	al_draw_bitmap_region(imagenFondoEscenario, posX4, 0, posX3, 600, posX2-2, 0, 0);
+	al_draw_bitmap(imagenPiso, 0, 525, 0);
 }

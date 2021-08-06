@@ -1,13 +1,17 @@
 #include "player.h"
 
 void player::inicia(escenario _playerEscenario) {
-	imgPlayer = al_load_bitmap("personaje.png");
-	tiempoPaso = int(_playerEscenario.getFPS() / getMueve());
-	tiempoCont = 0;
-	posX = 100;
-	posY = 480;
-	direccion = 0;
-	paso = 0;
+    imgPlayer = al_load_bitmap("personaje.png");
+    tiempoPaso = int(_playerEscenario.getFPS() / getMueve());
+    tiempoCont = 0;
+    posX = 100;
+    posY = 380;
+    direccion = 0;
+    paso = 0;
+}
+
+void player::hasColision() {
+    solidGround = true;
 }
 
 int player::teclas() {
@@ -15,7 +19,6 @@ int player::teclas() {
     desplazamiento = 6;
     ALLEGRO_KEYBOARD_STATE teclado;
     al_get_keyboard_state(&teclado);
-
     if (al_key_down(&teclado, ALLEGRO_KEY_UP) && solidGround) {
         velY = -jumpSpeed;
         solidGround = false;
@@ -45,9 +48,10 @@ int player::teclas() {
 
     solidGround = (posY + 80 >= 560);
 
-    if (solidGround)
+    if (solidGround) {
         posY = 560 - 80;
-
+        salto = true;
+    }
     // limitadores
     if (posX < 200) {
         posX = 200;
@@ -58,7 +62,6 @@ int player::teclas() {
         m = 2;
     }
 
-    if (posY < 0) posY = 0;
     if (posY > 600 - 48) posY = 600 - 48;
 
     if (tiempoCont > tiempoPaso) {
@@ -85,11 +88,10 @@ void player::cambio(int a) {
     }
     else if (a >= 5) {
         if (estado[1]) {
-            choquescudo = true;
             estado[1] = false;
         }
         else {
-            lifePoints -= 10;
+            lifePoints -= 4;
             if (lifePoints <= 0) {
                 lifePoints = 0;
             }
@@ -123,6 +125,7 @@ void player::contagio() {
 void player::pinta() {
     al_draw_bitmap_region(imgPlayer, paso * 48, direccion * 48, 48, 48, posX, posY, 0);
 }
+
 bool player::choquescud() {
     return choquescudo;
 }

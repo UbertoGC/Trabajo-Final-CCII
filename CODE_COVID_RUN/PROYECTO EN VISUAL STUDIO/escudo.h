@@ -6,6 +6,7 @@
 class escudo : public objeto {
 
 public:
+    escudo() {}
     escudo(int);
     void efecto(player& _player) {
         if (_player.getposX() + 30 >= posX && _player.getposX() <= posX + 40 && _player.getposY() - 4 == posY) {
@@ -15,6 +16,19 @@ public:
     }
     void finalobj(player& _player) {
         _player.cambio(4);
+    }
+    escudo& operator=(escudo p) {
+        this->tipo = p.tipo;
+        this->duracion = p.duracion;
+        this->posX = p.posX;
+        this->posY = p.posY;
+        this->uso = p.uso;
+        this->desplazamiento = p.desplazamiento;
+        this->imgobj = al_load_bitmap("escudo.png");
+        return *this;
+    }
+    bool operator==(const escudo& p)const {
+        return (this->tipo == p.tipo && (this->posX == p.posX && this->posY == p.posY));
     }
 };
 #endif

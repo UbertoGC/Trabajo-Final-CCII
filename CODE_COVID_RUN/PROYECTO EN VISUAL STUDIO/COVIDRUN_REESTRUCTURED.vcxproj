@@ -164,7 +164,8 @@
     <ClCompile Include="enfermo.cpp" />
     <ClCompile Include="escenario.cpp" />
     <ClCompile Include="escudo.cpp" />
-    <ClCompile Include="estructuras.cpp" />
+    <ClCompile Include="estructura.cpp" />
+    <ClCompile Include="generador.cpp" />
     <ClCompile Include="initializer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mascarilla.cpp" />
@@ -177,9 +178,13 @@
     <ClInclude Include="enfermo.h" />
     <ClInclude Include="escenario.h" />
     <ClInclude Include="escudo.h" />
-    <ClInclude Include="estructuras.h" />
+    <ClInclude Include="estructura.h" />
+    <ClInclude Include="generador.h" />
     <ClInclude Include="initializer.h" />
+    <ClInclude Include="Iterator.h" />
+    <ClInclude Include="Listaenlazada.h" />
     <ClInclude Include="mascarilla.h" />
+    <ClInclude Include="Nodo.h" />
     <ClInclude Include="objeto.h" />
     <ClInclude Include="player.h" />
   </ItemGroup>

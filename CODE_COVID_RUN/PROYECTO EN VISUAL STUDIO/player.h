@@ -5,7 +5,6 @@
 #include "escenario.h"
 
 class player : public character {
-	friend class escenario;
 protected:
 	//VARIABLES DEL JUGADOR
 	int posX, posY;
@@ -13,7 +12,7 @@ protected:
 	int paso;
 	int tiempoPaso;
 	int tiempoCont;
-
+	bool salto=true;
 	// VARIABLES DE INTERACCION CON EL ESCENARIO
 	bool goBack = false;
 	bool solidGround = false;
@@ -31,12 +30,14 @@ public:
 		posX(_initX), posY(_initY), direccion(_initDirec), paso(_initPaso), tiempoPaso(_initTiempoPaso), tiempoCont(_initTiempoCont), imgPlayer(_initImg) {}
 
 	void inicia(escenario);
+	// void teclas();
 	int teclas();
 	int getposX() { return posX; }
 	int getposY() { return posY; }
 	void cambio(int);
 	void pinta();
 	void contagio();
+	void hasColision();
 	int& vida();
 	bool choquescud();
 };
