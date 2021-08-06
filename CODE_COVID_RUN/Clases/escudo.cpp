@@ -4,7 +4,7 @@ escudo::escudo(int _posX) {
     posX = _posX;
     posY = 476;
     desplazamiento = 6;
-    duracion = 20*60;
+    duracion = 6*60;
     tipo = 2;
 }
 void escudo::reinicio(int x, int y) {
@@ -15,6 +15,6 @@ void escudo::reinicio(int x, int y) {
     posX = x;
     posY = y;
     desplazamiento = 6;
-    duracion = 20 * 60;
+    duracion = 6 * 60;
     tipo = 1;
 }

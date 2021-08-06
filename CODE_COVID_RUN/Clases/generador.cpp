@@ -1,5 +1,23 @@
 #include "generador.h"
 generador::generador() {
+	shared_ptr<Listaenlazada<mascarilla>> mascarillas2(new Listaenlazada<mascarilla>());
+	shared_ptr<Listaenlazada<escudo>> escudos2(new Listaenlazada<escudo>());
+	shared_ptr<Listaenlazada<estructura>> estructuras2(new Listaenlazada<estructura>());
+	shared_ptr<Listaenlazada<enfermo>> enfermos2(new Listaenlazada<enfermo>());
+	mascarillas = mascarillas2;
+	escudos = escudos2;
+	estructuras = estructuras2;
+	enfermos = enfermos2;
+	srand(time(NULL));
+	int m = rand() % 2;
+	this->reiniciomasca();
+	this->reinicioenferm();
+	if (m == 0) {
+		this->reinicioescud();
+	}
+	else {
+		this->reinicioestruc();
+	}
 }
 void generador::reinicioestruc() {
 	srand(time(NULL));
@@ -13,7 +31,7 @@ void generador::reinicioestruc() {
 				conjuntoest[i].initDefault(((j + 1) * 800) + (m * j));
 			}
 			for (int i = 0; i < estruc; i++) {
-				estructuras.Anadir(conjuntoest[i]);
+				estructuras->Anadir(conjuntoest[i]);
 			}
 		}
 	}
@@ -34,7 +52,7 @@ void generador::reiniciomasca() {
 			conjuntomas[s]->reinicio(a, b);
 		}
 		for (int i = 0; i < masca; i++) {
-			mascarillas.Anadir(*conjuntomas[i]);
+			mascarillas->Anadir(*conjuntomas[i]);
 		}
 	}
 }
@@ -48,7 +66,7 @@ void generador::reinicioescud() {
 			conjunesc[i] = new escudo();
 			int m = rand() % 2;
 			conjunesc[i]->reinicio(((i + 1) * genesc) + 300, 476 - (m * 80));
-			escudos.Anadir(*conjunesc[i]);
+			escudos->Anadir(*conjunesc[i]);
 		}
 	}
 }
@@ -76,31 +94,32 @@ void generador::reinicioenferm() {
 			enferm[i]->reinicio((i + 1) * genenf + 500, true, true);
 			break;
 		}
-		enfermos.Anadir(*enferm[i]);
+		enfermos->Anadir(*enferm[i]);
 	}
 }
 void generador::reinicio() {
+	srand(time(NULL));
+	posX = 0;
+	shared_ptr<Listaenlazada<mascarilla>> mascarillas2(new Listaenlazada<mascarilla>());
+	shared_ptr<Listaenlazada<escudo>> escudos2(new Listaenlazada<escudo>());
+	shared_ptr<Listaenlazada<estructura>> estructuras2(new Listaenlazada<estructura>());
+	shared_ptr<Listaenlazada<enfermo>> enfermos2(new Listaenlazada<enfermo>());
+	mascarillas = mascarillas2;
+	escudos = escudos2;
+	estructuras = estructuras2;
+	enfermos = enfermos2;
 	int m = rand() % 2;
-	estructuras.vaciar();
-	enfermos.vaciar();
-	mascarillas.vaciar();
-	escudos.vaciar();
 	this->reiniciomasca();
 	this->reinicioenferm();
-	if(m==0) {
-		this->reinicioescud();
-	}
-	else {
-		this->reinicioestruc();
-	}
+	this->reinicioescud();
+	this->reinicioestruc();
 }
-void generador::cambioposiX() {
-	
+int generador::cambioposiX() {
+	return posX;
 }
 void generador::cambios(player&_player, int m, int n, int _contador) {
-	if (posX <= -3827) {
+	if (posX < -3367) {
 		this->reinicio();
-		posX = 0;
 	}
 	ALLEGRO_KEYBOARD_STATE teclado;
 	int desplazamiento = 6;
@@ -111,9 +130,9 @@ void generador::cambios(player&_player, int m, int n, int _contador) {
 	else if (al_key_down(&teclado, ALLEGRO_KEY_LEFT) && n != 1 && m == 1) {
 		posX += desplazamiento;
 	}
-	if (estructuras.Size() != 0) {
-		Iterator<estructura> i(estructuras.begin());
-		for (; i != estructuras.end(); ++i) {
+	if (estructuras->Size() != 0) {
+		Iterator<estructura> i(estructuras->begin());
+		for (; i != estructuras->end(); ++i) {
 			i.posicion()->Devol2().movi(n, m);
 			if (_player.getposX() + 30 >= i.posicion()->Devol2().posiX() && _player.getposX() <= i.posicion()->Devol2().posiX() + 150) {
 				if (_player.getposY() + 48 >= i.posicion()->Devol2().posiY() && _player.getposY() <= i.posicion()->Devol2().posiY() + 15) {
@@ -122,38 +141,37 @@ void generador::cambios(player&_player, int m, int n, int _contador) {
 			}
 		}
 	}
-	if (enfermos.Size()!=0) {
-		Iterator<enfermo> j(enfermos.begin());
-		for (; j != enfermos.end(); ++j) {
+	if (enfermos->Size()!=0) {
+		Iterator<enfermo> j(enfermos->begin());
+		for (; j != enfermos->end(); ++j) {
 			enfermo* enf = &j.posicion()->Devol2();
 			enf->movienf(m, n);
 			enf->efecto(_player);
 		}
 	}
-	if (mascarillas.Size() != 0) {
-		Iterator<mascarilla> k(mascarillas.begin());
-		for (; k != mascarillas.end(); ++k) {
-			if (!k.posicion()->Devol2().usandose()) {
+	if (mascarillas->Size() != 0) {
+		Iterator<mascarilla> k(mascarillas->begin());
+		for (; k != mascarillas->end(); ++k) {
+			if (!k.posicion()->Devol2().usandose()&& k.posicion()->Devol2().durarest() != 0) {
 				k.posicion()->Devol2().moviobj(n,m);
 				k.posicion()->Devol2().efecto(_player);
 			}
-			else if(k.posicion()->Devol2().durarest() != 0) {
+			else if(k.posicion()->Devol2().usandose() && k.posicion()->Devol2().durarest() != 0) {
 				k.posicion()->Devol2().bajandotiem();
 			}
 			if (k.posicion()->Devol2().durarest() == 0) {
 				k.posicion()->Devol2().finalobj(_player);
 			}
 		}
-		k.~Iterator();
 	}
-	if (escudos.Size() != 0) {
-		Iterator<escudo> k(escudos.begin());
-		for (; k != escudos.end(); ++k) {
-			if (!k.posicion()->Devol2().usandose()) {
+	if (escudos->Size() != 0) {
+		Iterator<escudo> k(escudos->begin());
+		for (; k != escudos->end(); ++k) {
+			if (!k.posicion()->Devol2().usandose() && k.posicion()->Devol2().durarest() != 0) {
 				k.posicion()->Devol2().moviobj(n, m);
 				k.posicion()->Devol2().efecto(_player);
 			}
-			else{
+			else if (k.posicion()->Devol2().usandose() && k.posicion()->Devol2().durarest() != 0){
 				k.posicion()->Devol2().bajandotiem();
 				if (_player.choquescud()) {
 					k.posicion()->Devol2().cambiodura(0);
@@ -163,33 +181,32 @@ void generador::cambios(player&_player, int m, int n, int _contador) {
 				k.posicion()->Devol2().finalobj(_player);
 			}
 		}
-		k.~Iterator();
 	}
 }
 void generador::pintar() {
-	if (!(estructuras.Size() == 0)) {
-		Iterator<estructura> j(estructuras.begin());
-		for (; j != estructuras.end(); ++j) {
+	if (!(estructuras->Size() == 0)) {
+		Iterator<estructura> j(estructuras->begin());
+		for (; j != estructuras->end(); ++j) {
 			j.posicion()->Devol2().pinta();
 		}
 	}
-	if (!(enfermos.Size() == 0)) {
-		Iterator<enfermo> j(enfermos.begin());
-		for (; j != enfermos.end(); ++j) {
+	if (!(enfermos->Size() == 0)) {
+		Iterator<enfermo> j(enfermos->begin());
+		for (; j != enfermos->end(); ++j) {
 			j.posicion()->Devol2().pinta();
 		}
 	}
-	if (!(mascarillas.Size() == 0)) {
-		Iterator<mascarilla> k(mascarillas.begin());
-		for (; k != mascarillas.end(); ++k) {
+	if (!(mascarillas->Size() == 0)) {
+		Iterator<mascarilla> k(mascarillas->begin());
+		for (; k != mascarillas->end(); ++k) {
 			if (!k.posicion()->Devol2().usandose()) {
 				k.posicion()->Devol2().pinta();
 			}		
 		}
 	}
-	if (!(escudos.Size() == 0)) {
-		Iterator<escudo> k(escudos.begin());
-		for (; k != escudos.end(); ++k) {
+	if (!(escudos->Size() == 0)) {
+		Iterator<escudo> k(escudos->begin());
+		for (; k != escudos->end(); ++k) {
 			if (!k.posicion()->Devol2().usandose()) {
 				k.posicion()->Devol2().pinta();
 			}

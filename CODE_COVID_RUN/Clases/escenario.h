@@ -12,6 +12,7 @@ protected:
 	int vuelta = 0;
 	int posX = 0;
 	int posXdef = 0;
+	int puntos = 0;
 	ALLEGRO_EVENT_QUEUE* eventosEscenario;
 	ALLEGRO_COLOR colorFondoEscenario;
 	ALLEGRO_BITMAP* imagenFondoEscenario;
@@ -32,6 +33,7 @@ public:
 
 	//GET_METHODS
 	int getlvlEscenario();
+	int getpuntos();
 	int getFPS();
 	ALLEGRO_EVENT_QUEUE* getQueue();
 	ALLEGRO_COLOR getColor();

@@ -18,7 +18,9 @@ void escenario::defaultEscenario() {
 int escenario::getlvlEscenario() {
 	return lvlEscenario;
 }
-
+int escenario::getpuntos() {
+	return puntos;
+}
 int escenario::getFPS() {
 	return FPSGame;
 }
@@ -56,13 +58,14 @@ int escenario::teclas(int m) {
 	if (al_key_down(&teclado, ALLEGRO_KEY_RIGHT) && m == 2) {
 		posX += desplazamiento;
 		posXdef -= desplazamiento;
+		puntos += 1;
 	}
 	else if (al_key_down(&teclado, ALLEGRO_KEY_LEFT) && m == 1) {
 		posX -= desplazamiento;
 		posXdef += desplazamiento;
 	}
 	if (posX < 0) {
-		if (vuelta == 0||vuelta%2==0) {
+		if (vuelta == 0||vuelta%1==0) {
 			posX = 0;
 			n = 1;
 		}

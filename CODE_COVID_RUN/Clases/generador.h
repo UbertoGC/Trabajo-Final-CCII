@@ -11,10 +11,10 @@ class generador {
 
 private:
 	int posX = 0;
-	Listaenlazada<mascarilla> mascarillas;
-	Listaenlazada<escudo> escudos;
-	Listaenlazada<estructura> estructuras;
-	Listaenlazada<enfermo> enfermos;
+	shared_ptr<Listaenlazada<mascarilla>> mascarillas;
+	shared_ptr<Listaenlazada<escudo>> escudos;
+	shared_ptr<Listaenlazada<estructura>> estructuras;
+	shared_ptr<Listaenlazada<enfermo>> enfermos;
 public:
 	generador();
 	void reinicioestruc();
@@ -22,7 +22,7 @@ public:
 	void reinicioenferm();
 	void reiniciomasca();
 	void reinicio();
-	void cambioposiX();
+	int cambioposiX();
 	void cambios(player&, int, int,int);
 	void pintar();
 };
