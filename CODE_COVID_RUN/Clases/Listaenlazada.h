@@ -129,7 +129,7 @@ Nodo<Tipo> *Listaenlazada<Tipo>::end(){
 }
 template<typename Tipo>
 void Listaenlazada<Tipo>::vaciar(){
-    if (head != nullptr) {
+    if (tama > 0) {
         delete head;
         tama = 0;
         head = nullptr;

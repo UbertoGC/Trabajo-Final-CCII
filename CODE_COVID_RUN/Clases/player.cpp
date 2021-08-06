@@ -50,7 +50,6 @@ int player::teclas() {
 
     if (solidGround) {
         posY = 560 - 80;
-        salto = true;
     }
     // limitadores
     if (posX < 200) {

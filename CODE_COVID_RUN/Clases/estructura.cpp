@@ -1,10 +1,10 @@
 #include "estructura.h"
 
-void estructura::initDefault() {
+void estructura::initDefault(int d) {
 	image = al_load_bitmap("plataforma.png");
 	posX = 200 * (1 + rand() % 3);
 	posY = 120 * (1 + rand() % 3);
-
+	posX += d;
 }
 void estructura::movi(int n, int m) {
 	ALLEGRO_KEYBOARD_STATE teclado;

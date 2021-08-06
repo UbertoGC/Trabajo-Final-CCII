@@ -45,6 +45,7 @@ public:
 
 	int limite();
 	int teclas(int);
+	int vueltas();
 	void pintar();
 };
 #endif

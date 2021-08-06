@@ -1,11 +1,24 @@
 #include "enfermo.h"
+void enfermo::reinicio(int x, bool _par1, bool _par2) {
+	imgenemigo = al_load_bitmap("enfermo.png");
+	tiempoPaso = int(60 / getMueve());
+	tiempoCont = 0;
+	posX = x;
+	posY = 480;
+	direccion = 0;
+	paso = 1;
+	movi[0] = _par1;
+	movi[1] = _par2;
+}
 void enfermo::efecto(player& _player) {
 	if (_player.getposX() + 30 >= posX && _player.getposX() <= posX + 30 && _player.getposY() + 40 >= posY && _player.getposY() <= posY + 40 && afeccion == 0) {
 		_player.cambio(5);
 		afeccion = 1;
 	}
 	else if (((_player.getposX() + 30 < posX || _player.getposX() > posX + 30) || (_player.getposY() + 40 < posY || _player.getposY() > posY + 40)) && afeccion == 1) {
-		this->afeccion = 0;
+		if (afeccion!=0){
+			this->afeccion = 0;
+		}
 	}
 }
 void enfermo::movienf(int m, int n) {
@@ -23,7 +36,7 @@ void enfermo::movienf(int m, int n) {
 			direccion = 1;
 			tiempoCont++;
 		}
-		if (al_key_down(&teclado, ALLEGRO_KEY_RIGHT) && m == 2) {
+		if (al_key_down(&teclado, ALLEGRO_KEY_RIGHT) && n!=2 && m == 2) {
 			posX -= desplazamiento;
 		}
 		else if (al_key_down(&teclado, ALLEGRO_KEY_LEFT) && n != 1 && m == 1) {

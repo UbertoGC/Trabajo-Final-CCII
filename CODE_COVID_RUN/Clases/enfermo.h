@@ -12,7 +12,7 @@ protected:
 	int posX=480, posY=480;
 	int direccion=0;
 	int movimiento = 2;
-	ALLEGRO_BITMAP* imgenemigo;
+	ALLEGRO_BITMAP* imgenemigo= al_load_bitmap("enfermo.png");
 	int tiempoPaso=60/18;
 	int tiempoCont = 0;
 	int paso = 1;
@@ -25,9 +25,10 @@ protected:
 
 public:
 	enfermo(){}
+	void reinicio(int,bool,bool);
 	enfermo(escenario _playerEscenario, bool _par1, bool _par2, int _initX) {
 		imgenemigo = al_load_bitmap("enfermo.png");
-		tiempoPaso = int(_playerEscenario.getFPS() / getMueve());
+		tiempoPaso = int(60 / getMueve());
 		tiempoCont = 0;
 		posX = _initX;
 		posY = 480;
@@ -41,5 +42,8 @@ public:
 	void movienf(int, int);
 	void pinta();
 	enfermo& operator=(enfermo);
+	bool operator==(const enfermo& p)const {
+		return  (this->posX == p.posX && this->posY == p.posY);
+	}
 };
 #endif
