@@ -10,13 +10,19 @@
 class generador {
 
 private:
+	int posX = 0;
 	Listaenlazada<mascarilla> mascarillas;
 	Listaenlazada<escudo> escudos;
 	Listaenlazada<estructura> estructuras;
 	Listaenlazada<enfermo> enfermos;
 public:
-	generador(escenario);
+	generador();
+	void reinicioestruc();
+	void reinicioescud();
+	void reinicioenferm();
+	void reiniciomasca();
 	void reinicio();
+	void cambioposiX();
 	void cambios(player&, int, int,int);
 	void pintar();
 };

@@ -24,6 +24,7 @@ public:
 	void bajandotiem();
 	int tipoclase();
 	int posiX();
+	int posiY();
 	void cambiodura(int);
 	bool operator==(objeto p);
 	objeto& operator=(objeto p);

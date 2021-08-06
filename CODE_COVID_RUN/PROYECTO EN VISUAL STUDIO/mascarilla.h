@@ -7,9 +7,10 @@ class mascarilla : public objeto {
 
 public:
     mascarilla() {}
+    void reinicio(int,int);
     mascarilla(int);
     void efecto(player& _player) {
-        if (_player.getposX() + 24 >= posX && _player.getposX() <= posX + 24 && _player.getposY() + 2 == posY) {
+        if (_player.getposX() + 24 >= posX && _player.getposX() <= posX + 24 && _player.getposY() + 2 >= posY&&_player.getposY()-2<=posY+40) {
             _player.cambio(1);
             uso = true;
         }
@@ -30,7 +31,7 @@ public:
         return *this;
     }
     bool operator==(const mascarilla &p)const {
-        return (this->tipo == p.tipo && (this->posX == p.posX && this->posY == p.posY));
+        return (this->posX == p.posX && this->posY == p.posY);
     }
 };
 #endif

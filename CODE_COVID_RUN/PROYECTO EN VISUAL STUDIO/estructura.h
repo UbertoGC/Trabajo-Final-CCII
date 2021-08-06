@@ -13,7 +13,7 @@ protected:
 public:
 	explicit estructura(int _initposX = 0, int _initposY = 0, int _initVelX = 5, ALLEGRO_BITMAP* _initImage = nullptr, bool _initSolid = false)
 		: posX(_initposX), posY(_initposY), velX(_initVelX), image(_initImage), solid(_initSolid) {}
-	void initDefault();
+	void initDefault(int);
 	void movi(int,int);
 	int posiX();
 	int posiY();

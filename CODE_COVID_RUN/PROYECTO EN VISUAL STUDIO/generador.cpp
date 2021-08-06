@@ -1,29 +1,116 @@
 #include "generador.h"
-generador::generador(escenario _playerEscenario) {
-	mascarilla* o0 = new mascarilla(1000);
-	mascarilla* o1 = new mascarilla(500);
-	mascarilla* o3 = new mascarilla(1500);
-	mascarilla* o4 = new mascarilla(2000);
-	escudo* o2 = new escudo(500);
-	enfermo* s1 = new enfermo(_playerEscenario, false, false, 1000);
-	enfermo* s2 = new enfermo(_playerEscenario, true, true, 500);
-	enfermo* s3 = new enfermo(_playerEscenario, false, true, 500);
-	enfermo* s4 = new enfermo(_playerEscenario, true, false, 500);
-
+generador::generador() {
+}
+void generador::reinicioestruc() {
 	srand(time(NULL));
-	estructura* conjunto = new estructura[10];
-	for (int i = 0; i < 9; i++) {
-		conjunto[i].initDefault();
+	int estrucant = rand() % 3;
+	int estruc = 6 + rand() % 3;
+	if (estrucant > 0) {
+		int m = 300;
+		for (int j = 0; j < estrucant; j++) {
+			estructura* conjuntoest = new estructura[estruc];
+			for (int i = 0; i < estruc; i++) {
+				conjuntoest[i].initDefault(((j + 1) * 800) + (m * j));
+			}
+			for (int i = 0; i < estruc; i++) {
+				estructuras.Anadir(conjuntoest[i]);
+			}
+		}
 	}
-
+}
+void generador::reiniciomasca() {
+	srand(time(NULL));
+	int masca = 2 + rand() % 2;
+	int genmas = 2400 / masca;
+	if (masca>0) {
+		int m2;
+		int a, b;
+		mascarilla *conjuntomas[3];
+		for (int s = 0; s < masca; s++) {
+			conjuntomas[s] = new mascarilla();
+			m2 = rand() % 2;
+			a = (s + 1) * genmas;
+			b = 482 - (m2 * 80);
+			conjuntomas[s]->reinicio(a, b);
+		}
+		for (int i = 0; i < masca; i++) {
+			mascarillas.Anadir(*conjuntomas[i]);
+		}
+	}
+}
+void generador::reinicioescud() {
+	srand(time(NULL));
+	int escud = rand() % 4;
+	if (escud != 0) {
+		int genesc = 2400 / escud;
+		escudo* conjunesc[3];
+		for (int i = 0; i < escud; i++) {
+			conjunesc[i] = new escudo();
+			int m = rand() % 2;
+			conjunesc[i]->reinicio(((i + 1) * genesc) + 300, 476 - (m * 80));
+			escudos.Anadir(*conjunesc[i]);
+		}
+	}
+}
+void generador::reinicioenferm() {
+	srand(time(NULL));
+	int enfer = 3 + rand() % 2;
+	enfermo *enferm[6];
+	int genenf = 2100 / enfer;
+	int m;
+	for (int i = 0; i < enfer; i++) {
+		enferm[i] = new enfermo();
+		m = rand() % 4;
+		switch (m)
+		{
+		case 0:
+			enferm[i]->reinicio((i + 1) * genenf + 500, false, false);
+			break;
+		case 1:
+			enferm[i]->reinicio(-50, true, false);
+			break;
+		case 2:
+			enferm[i]->reinicio((i + 1) * genenf + 500, false, true);
+			break;
+		case 3:
+			enferm[i]->reinicio((i + 1) * genenf + 500, true, true);
+			break;
+		}
+		enfermos.Anadir(*enferm[i]);
+	}
 }
 void generador::reinicio() {
+	int m = rand() % 2;
 	estructuras.vaciar();
 	enfermos.vaciar();
 	mascarillas.vaciar();
 	escudos.vaciar();
+	this->reiniciomasca();
+	this->reinicioenferm();
+	if(m==0) {
+		this->reinicioescud();
+	}
+	else {
+		this->reinicioestruc();
+	}
+}
+void generador::cambioposiX() {
+	
 }
 void generador::cambios(player&_player, int m, int n, int _contador) {
+	if (posX <= -3827) {
+		this->reinicio();
+		posX = 0;
+	}
+	ALLEGRO_KEYBOARD_STATE teclado;
+	int desplazamiento = 6;
+	al_get_keyboard_state(&teclado);
+	if (al_key_down(&teclado, ALLEGRO_KEY_RIGHT) && n != 2 && m == 2) {
+		posX -= desplazamiento;
+	}
+	else if (al_key_down(&teclado, ALLEGRO_KEY_LEFT) && n != 1 && m == 1) {
+		posX += desplazamiento;
+	}
 	if (estructuras.Size() != 0) {
 		Iterator<estructura> i(estructuras.begin());
 		for (; i != estructuras.end(); ++i) {
@@ -44,9 +131,6 @@ void generador::cambios(player&_player, int m, int n, int _contador) {
 		}
 	}
 	if (mascarillas.Size() != 0) {
-		int n2 = mascarillas.Size();
-		int cont = 0;
-		mascarilla* s2 = new mascarilla[n2];
 		Iterator<mascarilla> k(mascarillas.begin());
 		for (; k != mascarillas.end(); ++k) {
 			if (!k.posicion()->Devol2().usandose()) {
@@ -58,22 +142,11 @@ void generador::cambios(player&_player, int m, int n, int _contador) {
 			}
 			if (k.posicion()->Devol2().durarest() == 0) {
 				k.posicion()->Devol2().finalobj(_player);
-				s2[cont] = k.posicion()->Devol2();
-				cont++;
 			}
 		}
 		k.~Iterator();
-		if (cont <= n2 && cont != 0) {
-			for (int i = 0; i < n2; i++) {
-				mascarillas.Eliminar(s2[i]);
-			}
-		}
-		delete[] s2;
 	}
 	if (escudos.Size() != 0) {
-		int n2 = escudos.Size();
-		int cont = 0;
-		escudo* s2 = new escudo[n2];
 		Iterator<escudo> k(escudos.begin());
 		for (; k != escudos.end(); ++k) {
 			if (!k.posicion()->Devol2().usandose()) {
@@ -88,17 +161,9 @@ void generador::cambios(player&_player, int m, int n, int _contador) {
 			}
 			if (k.posicion()->Devol2().durarest() == 0) {
 				k.posicion()->Devol2().finalobj(_player);
-				s2[cont] = k.posicion()->Devol2();
-				cont++;
 			}
 		}
 		k.~Iterator();
-		if (cont <= n2 && cont != 0) {
-			for (int i = 0; i < n2; i++) {
-				escudos.Eliminar(s2[i]);
-			}
-		}
-		delete[] s2;
 	}
 }
 void generador::pintar() {

@@ -12,6 +12,7 @@ class Nodo{
     Nodo(Nodo<Tipo> &a);
     Nodo<Tipo> *&Devolver();
     Tipo &Devol2();
+    ~Nodo();
 };
 //Constructores
 template<typename Tipo>
@@ -47,5 +48,9 @@ Nodo<Tipo> *&Nodo<Tipo>::Devolver(){
 template<typename Tipo>
 Tipo &Nodo<Tipo>::Devol2(){
     return dato;
+}
+template<typename Tipo>
+Nodo<Tipo>::~Nodo() {
+    delete sig;
 }
 #endif

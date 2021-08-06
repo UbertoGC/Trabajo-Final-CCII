@@ -1,9 +1,7 @@
 #include "objeto.h"
-
 void objeto::moviobj(int n, int m) {
 	ALLEGRO_KEYBOARD_STATE teclado;
 	al_get_keyboard_state(&teclado);
-	int desplazamiento = 6;
 	if (al_key_down(&teclado, ALLEGRO_KEY_RIGHT) && n != 2 && m == 2) {
 		posX -= desplazamiento;
 	}
@@ -32,6 +30,9 @@ int objeto::tipoclase() {
 }
 int objeto::posiX() {
 	return posX;
+}
+int objeto::posiY() {
+	return posY;
 }
 void objeto::cambiodura(int a) {
 	duracion = a;

@@ -1,4 +1,3 @@
-
 //LIBRERIA ADICIONAL
 #include <Windows.h>
 
@@ -33,11 +32,12 @@ void dibujarEscenarioBase(ALLEGRO_FONT* main_font, escenario& mainEscenario, pla
 }
 
 void juegoPrincipal(ALLEGRO_FONT* mainFont, escenario &mainEscenario, player &_player, generador &_generacion, ALLEGRO_BITMAP *_vidimg) {
+    _generacion.reinicio();
     ALLEGRO_EVENT evento;
     bool repetir = true;
     bool dibujar = true;
     int contador = 0;
-    int n, m;
+    int n, m, s;
     while (repetir) {
         //SE HACE LA PRIMERA PINCELADA SOBRE LA PANTALLA Y SE ESPERA ALGUN EVENTO
         if (dibujar && al_event_queue_is_empty(mainEscenario.getQueue())) {
@@ -77,7 +77,7 @@ void juegoPrincipal(ALLEGRO_FONT* mainFont, escenario &mainEscenario, player &_p
 int menuDelJuego(ALLEGRO_BITMAP* menu_null, ALLEGRO_BITMAP* menu_start, ALLEGRO_BITMAP* menu_salir, escenario &mainEscenario, player& _player) {
     ALLEGRO_BITMAP* vidimg = al_load_bitmap("corazon.png");
     _player.inicia(mainEscenario);
-    generador generacion(mainEscenario);
+    generador generacion;
     int botones[] = { 0 };
     int posXMouse = -1;
     int posYMouse = -1;

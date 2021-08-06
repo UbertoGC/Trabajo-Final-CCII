@@ -101,6 +101,9 @@ int escenario::teclas(int m) {
 	}
 	return n;
 }
+int escenario::vueltas() {
+	return vuelta;
+}
 void escenario::pintar() {
 	al_draw_bitmap_region(imagenFondoEscenario, posX, 0, 800, 600, 0, 0, 0);
 	al_draw_bitmap_region(imagenFondoEscenario, posX4, 0, posX3, 600, posX2-2, 0, 0);

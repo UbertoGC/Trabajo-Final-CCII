@@ -7,9 +7,10 @@ class escudo : public objeto {
 
 public:
     escudo() {}
+    void reinicio(int, int);
     escudo(int);
     void efecto(player& _player) {
-        if (_player.getposX() + 30 >= posX && _player.getposX() <= posX + 40 && _player.getposY() - 4 == posY) {
+        if (_player.getposX() + 30 >= posX && _player.getposX() <= posX + 40 && _player.getposY() <= posY+56 && _player.getposY()+44>=posY) {
             _player.cambio(2);
             uso = true;
         }
