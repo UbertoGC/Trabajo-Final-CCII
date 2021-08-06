@@ -13,7 +13,7 @@ void vidalife(int& _lifePoints, ALLEGRO_FONT* _vidfuent, ALLEGRO_BITMAP* _vidimg
     int m = 256 - (2 * _lifePoints + 26);
     int n = 2 * _lifePoints + 30;
     ALLEGRO_COLOR vidcolor = al_map_rgb(m, n, 80);
-    al_draw_text(_vidfuent, vidcolor, 70, 5, 0, (to_string(_lifePoints) + "+").c_str());
+    al_draw_text(_vidfuent, vidcolor, 70, 5, 0, (to_string(_lifePoints) + "%").c_str());
     al_draw_bitmap(_vidimg, 0, 0, 0);
 }
 
@@ -30,7 +30,8 @@ void gameOver(ALLEGRO_BITMAP* menu_null, ALLEGRO_BITMAP* menu_start, ALLEGRO_BIT
     ALLEGRO_BITMAP* gamerOverScreen = al_load_bitmap("gameOver.jpg");
     while (true) {
         al_draw_bitmap(gamerOverScreen, 0, 0, 0);
-        al_draw_text(fuente, vidcolor, 70, 200, 0, "GAME OVER");
+        al_draw_text(fuente, vidcolor, 70, 200, 0, "GAME OVER"); 
+        al_draw_text(fuente, vidcolor, 70, 280, 0, ("PUNTOS: " + to_string(mainEscenario.getpuntos())).c_str());
         al_get_keyboard_state(&teclado);
         if (al_key_down(&teclado, ALLEGRO_KEY_SPACE)) {
             break;

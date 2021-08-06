@@ -111,12 +111,8 @@ void generador::reinicio() {
 	int m = rand() % 2;
 	this->reiniciomasca();
 	this->reinicioenferm();
-	if (m == 0) {
-		this->reinicioescud();
-	}
-	else {
-		this->reinicioestruc();
-	}
+	this->reinicioescud();
+	this->reinicioestruc();
 }
 int generador::cambioposiX() {
 	return posX;
@@ -156,27 +152,26 @@ void generador::cambios(player&_player, int m, int n, int _contador) {
 	if (mascarillas->Size() != 0) {
 		Iterator<mascarilla> k(mascarillas->begin());
 		for (; k != mascarillas->end(); ++k) {
-			if (!k.posicion()->Devol2().usandose()) {
+			if (!k.posicion()->Devol2().usandose()&& k.posicion()->Devol2().durarest() != 0) {
 				k.posicion()->Devol2().moviobj(n,m);
 				k.posicion()->Devol2().efecto(_player);
 			}
-			else if(k.posicion()->Devol2().durarest() != 0) {
+			else if(k.posicion()->Devol2().usandose() && k.posicion()->Devol2().durarest() != 0) {
 				k.posicion()->Devol2().bajandotiem();
 			}
 			if (k.posicion()->Devol2().durarest() == 0) {
 				k.posicion()->Devol2().finalobj(_player);
 			}
 		}
-		k.~Iterator();
 	}
 	if (escudos->Size() != 0) {
 		Iterator<escudo> k(escudos->begin());
 		for (; k != escudos->end(); ++k) {
-			if (!k.posicion()->Devol2().usandose()) {
+			if (!k.posicion()->Devol2().usandose() && k.posicion()->Devol2().durarest() != 0) {
 				k.posicion()->Devol2().moviobj(n, m);
 				k.posicion()->Devol2().efecto(_player);
 			}
-			else{
+			else if (k.posicion()->Devol2().usandose() && k.posicion()->Devol2().durarest() != 0){
 				k.posicion()->Devol2().bajandotiem();
 				if (_player.choquescud()) {
 					k.posicion()->Devol2().cambiodura(0);
@@ -186,7 +181,6 @@ void generador::cambios(player&_player, int m, int n, int _contador) {
 				k.posicion()->Devol2().finalobj(_player);
 			}
 		}
-		k.~Iterator();
 	}
 }
 void generador::pintar() {

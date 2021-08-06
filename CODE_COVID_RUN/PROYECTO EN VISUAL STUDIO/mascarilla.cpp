@@ -4,13 +4,13 @@ mascarilla::mascarilla(int _posX) {
     posX = _posX;
     posY = 482;
     desplazamiento = 6;
-    duracion = 12*60;
+    duracion = 6*60;
     tipo = 1;
 }
 void mascarilla::reinicio(int _posx,int _posy) {
     this->posX = _posx;
     this->posY = _posy;
     this->desplazamiento = 6;
-    this->duracion = 12 * 60;
+    this->duracion = 6 * 60;
     this->tipo = 1;
 }
