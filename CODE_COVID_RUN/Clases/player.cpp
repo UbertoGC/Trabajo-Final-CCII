@@ -10,18 +10,8 @@ void player::inicia(escenario _playerEscenario) {
     paso = 0;
 }
 
-void player::registrarColision(estructura _estructura) {
-    colisiones.push_back(_estructura);
-}
-
 void player::hasColision() {
-    for (int i = 0; i < colisiones.size(); i++) {
-        if (posX + 30 >= colisiones[i].posX && posX <= colisiones[i].posX + 150) {
-            if (posY + 48 >= colisiones[i].posY && posY <= colisiones[i].posY + 15) {
-                solidGround = true;
-            }
-        }
-    }
+    solidGround = true;
 }
 
 int player::teclas() {
@@ -29,7 +19,6 @@ int player::teclas() {
     desplazamiento = 6;
     ALLEGRO_KEYBOARD_STATE teclado;
     al_get_keyboard_state(&teclado);
-    this->hasColision();
     if (al_key_down(&teclado, ALLEGRO_KEY_UP) && solidGround) {
         velY = -jumpSpeed;
         solidGround = false;
@@ -59,9 +48,10 @@ int player::teclas() {
 
     solidGround = (posY + 80 >= 560);
 
-    if (solidGround)
+    if (solidGround) {
         posY = 560 - 80;
-
+        salto = true;
+    }
     // limitadores
     if (posX < 200) {
         posX = 200;
@@ -72,7 +62,6 @@ int player::teclas() {
         m = 2;
     }
 
-    if (posY < 0) posY = 0;
     if (posY > 600 - 48) posY = 600 - 48;
 
     if (tiempoCont > tiempoPaso) {
@@ -91,7 +80,13 @@ void player::cambio(int a) {
     else if (a == 2) {
         estado[1] = true;
     }
-    else if (a >= 3) {
+    else if (a == 3) {
+        estado[0] = false;
+    }
+    else if (a == 4) {
+        estado[1] = false;
+    }
+    else if (a >= 5) {
         if (estado[1]) {
             estado[1] = false;
         }
@@ -129,9 +124,6 @@ void player::contagio() {
 
 void player::pinta() {
     al_draw_bitmap_region(imgPlayer, paso * 48, direccion * 48, 48, 48, posX, posY, 0);
-    for (int i = 0; i < colisiones.size(); i++) {
-        colisiones[i].pinta();
-    }
 }
 
 bool player::choquescud() {

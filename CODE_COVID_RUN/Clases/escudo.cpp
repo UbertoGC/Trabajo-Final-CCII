@@ -4,6 +4,6 @@ escudo::escudo(int _posX) {
     posX = _posX;
     posY = 476;
     desplazamiento = 8;
-    duracion = 20;
+    duracion = 20*60;
     tipo = 2;
 }

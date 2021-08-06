@@ -22,6 +22,6 @@ void base_game_CR::getInfoGame() {
 	cout << "----------------------------------------------------------------------------------------------------------------------------------" << endl;
 	cout << "EL VIDEOJUEGO " << this->getName() << " FUE DESARROLLADO POR UN GRUPO DE ESTUDIANTES DE LA UNIVERSIDAD NACIONAL DE SAN AGUSTIN" << endl;
 	cout << "EL JUEGO SE ENCUENTRA EN SU VERSION: " << this->getVersion() << endl;
-	cout << "PARA MAS INFORMACIÃ“N ESCIBRIR A " << this->getContacto() << endl;
+	cout << "PARA MAS INFORMACIÓN ESCIBRIR A " << this->getContacto() << endl;
 	cout << "----------------------------------------------------------------------------------------------------------------------------------" << endl;
 }

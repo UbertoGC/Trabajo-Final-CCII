@@ -3,12 +3,8 @@
 
 #include "character.h"
 #include "escenario.h"
-#include "estructura.h"
-#include <vector>
 
 class player : public character {
-	friend class escenario;
-	friend class estructura;
 protected:
 	//VARIABLES DEL JUGADOR
 	int posX, posY;
@@ -16,14 +12,13 @@ protected:
 	int paso;
 	int tiempoPaso;
 	int tiempoCont;
-
+	bool salto=true;
 	// VARIABLES DE INTERACCION CON EL ESCENARIO
 	bool goBack = false;
 	bool solidGround = false;
 	const float gravity = 3.5;
 	float velY = 0;
 	float jumpSpeed = 35;
-	vector <estructura> colisiones;
 	ALLEGRO_BITMAP* imgPlayer;
 
 	//VARIABLE DE INTERACCION CON OBJETOS
@@ -35,7 +30,6 @@ public:
 		posX(_initX), posY(_initY), direccion(_initDirec), paso(_initPaso), tiempoPaso(_initTiempoPaso), tiempoCont(_initTiempoCont), imgPlayer(_initImg) {}
 
 	void inicia(escenario);
-	void registrarColision(estructura);
 	// void teclas();
 	int teclas();
 	int getposX() { return posX; }

@@ -5,7 +5,7 @@ void enfermo::efecto(player& _player) {
 		afeccion = 1;
 	}
 	else if (((_player.getposX() + 30 < posX || _player.getposX() > posX + 30) || (_player.getposY() + 40 < posY || _player.getposY() > posY + 40)) && afeccion == 1) {
-		afeccion = 0;
+		this->afeccion = 0;
 	}
 }
 void enfermo::movienf(int m, int n) {
@@ -23,7 +23,7 @@ void enfermo::movienf(int m, int n) {
 			direccion = 1;
 			tiempoCont++;
 		}
-		if (al_key_down(&teclado, ALLEGRO_KEY_RIGHT) && n != 2 && m == 2) {
+		if (al_key_down(&teclado, ALLEGRO_KEY_RIGHT) && m == 2) {
 			posX -= desplazamiento;
 		}
 		else if (al_key_down(&teclado, ALLEGRO_KEY_LEFT) && n != 1 && m == 1) {
@@ -66,4 +66,23 @@ void enfermo::movienf(int m, int n) {
 }
 void enfermo::pinta() {
 	al_draw_bitmap_region(imgenemigo, 48 * paso, 48 * direccion, 48, 48, posX, posY, 0);
+}
+enfermo& enfermo::operator=(enfermo p) {
+	if (this != &p) {
+		this->posX = p.posX;
+		this->posY = 480;
+		this->direccion = 0;
+		this->movimiento = 2;
+		this->imgenemigo = al_load_bitmap("enfermo.png");
+		this->tiempoPaso = p.tiempoPaso;
+		this->tiempoCont = 0;
+		this->paso = 1;
+		this->afeccion = 0;
+		this->movi[0] = p.movi[0];
+		this->movi[1] = p.movi[1];
+		this->jump2 = false;
+		this->velY2 = 0;
+		this->jumpSpeed2 = 35;
+	}
+	return *this;
 }
