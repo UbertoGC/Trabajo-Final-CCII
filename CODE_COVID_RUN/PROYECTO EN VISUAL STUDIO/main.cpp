@@ -21,8 +21,27 @@ void vidalife(int& _lifePoints, ALLEGRO_FONT* _vidfuent, ALLEGRO_BITMAP* _vidimg
 int ANCHO = GetSystemMetrics(SM_CXSCREEN);
 int ALTO = GetSystemMetrics(SM_CYSCREEN);
 int continuejuego = 2;
+int menuDelJuego(ALLEGRO_BITMAP*, ALLEGRO_BITMAP*, ALLEGRO_BITMAP*, escenario&, player&);
 
-void dibujarEscenarioBase(ALLEGRO_FONT* main_font, escenario& mainEscenario, player& _player, generador &_generacion, ALLEGRO_BITMAP* _vidimg) {
+void gameOver(ALLEGRO_BITMAP* menu_null, ALLEGRO_BITMAP* menu_start, ALLEGRO_BITMAP* menu_salir, escenario& mainEscenario, player& _player) {
+    ALLEGRO_KEYBOARD_STATE teclado;
+    ALLEGRO_FONT* fuente = al_load_font("GAMERIA.ttf", 80, 0);
+    ALLEGRO_COLOR vidcolor = al_map_rgb(150,150, 200);
+    ALLEGRO_BITMAP* gamerOverScreen = al_load_bitmap("gameOver.jpg");
+    while (true) {
+        al_draw_bitmap(gamerOverScreen, 0, 0, 0);
+        al_draw_text(fuente, vidcolor, 70, 200, 0, "GAME OVER");
+        al_get_keyboard_state(&teclado);
+        if (al_key_down(&teclado, ALLEGRO_KEY_SPACE)) {
+            break;
+        }
+        
+        al_flip_display();
+    }
+
+}
+
+void dibujarEscenarioBase(ALLEGRO_FONT* main_font, escenario& mainEscenario, player& _player, generador& _generacion, ALLEGRO_BITMAP* _vidimg, bool& repeticion) {
     al_clear_to_color(mainEscenario.getColor());
     mainEscenario.pintar();
     _generacion.pintar();
@@ -31,7 +50,8 @@ void dibujarEscenarioBase(ALLEGRO_FONT* main_font, escenario& mainEscenario, pla
     al_flip_display();
 }
 
-void juegoPrincipal(ALLEGRO_FONT* mainFont, escenario &mainEscenario, player &_player, generador &_generacion, ALLEGRO_BITMAP *_vidimg) {
+void juegoPrincipal(ALLEGRO_FONT* mainFont, escenario& mainEscenario, player& _player, generador& _generacion, ALLEGRO_BITMAP* _vidimg, bool& continuarMenu, ALLEGRO_BITMAP*& menu_null, ALLEGRO_BITMAP*& menu_start, ALLEGRO_BITMAP*& menu_salir) {
+    _player.inicia(mainEscenario);
     _generacion.reinicio();
     ALLEGRO_EVENT evento;
     bool repetir = true;
@@ -41,7 +61,7 @@ void juegoPrincipal(ALLEGRO_FONT* mainFont, escenario &mainEscenario, player &_p
     while (repetir) {
         //SE HACE LA PRIMERA PINCELADA SOBRE LA PANTALLA Y SE ESPERA ALGUN EVENTO
         if (dibujar && al_event_queue_is_empty(mainEscenario.getQueue())) {
-            dibujarEscenarioBase(mainFont, mainEscenario, _player, _generacion, _vidimg);
+            dibujarEscenarioBase(mainFont, mainEscenario, _player, _generacion, _vidimg, repetir);
             dibujar = false;
         }
 
@@ -69,14 +89,18 @@ void juegoPrincipal(ALLEGRO_FONT* mainFont, escenario &mainEscenario, player &_p
             }
             m = _player.teclas();
             n = mainEscenario.teclas(m);
-            _generacion.cambios(_player,m,n,contador);
+            _generacion.cambios(_player, m, n, contador);
+        }
+        if (mainEscenario.gameOver(_player.getLifePoints(), true)) {
+            repetir = false;
+            continuarMenu = false;
+            gameOver(menu_null, menu_start, menu_salir, mainEscenario, _player);
         }
     }
 }
 
-int menuDelJuego(ALLEGRO_BITMAP* menu_null, ALLEGRO_BITMAP* menu_start, ALLEGRO_BITMAP* menu_salir, escenario &mainEscenario, player& _player) {
+int menuDelJuego(ALLEGRO_BITMAP* menu_null, ALLEGRO_BITMAP* menu_start, ALLEGRO_BITMAP* menu_salir, escenario& mainEscenario, player& _player) {
     ALLEGRO_BITMAP* vidimg = al_load_bitmap("corazon.png");
-    _player.inicia(mainEscenario);
     generador generacion;
     int botones[] = { 0 };
     int posXMouse = -1;
@@ -108,8 +132,9 @@ int menuDelJuego(ALLEGRO_BITMAP* menu_null, ALLEGRO_BITMAP* menu_start, ALLEGRO_
             posYMouse = evento.mouse.y;
             if (posXMouse >= 381 && posXMouse <= 644 && posYMouse >= 264 && posYMouse <= 336) {
                 botones[0] = 1;
-                if (evento.mouse.button & 1)
-                    juegoPrincipal(fuente, mainEscenario, _player, generacion, vidimg);
+                if (evento.mouse.button & 1) {
+                    juegoPrincipal(fuente, mainEscenario, _player, generacion, vidimg, repetir, menu_null, menu_start, menu_salir);
+                }
             }
             else if (posXMouse >= 393 && posXMouse <= 651 && posYMouse >= 428 && posYMouse <= 501) {
                 botones[0] = 2;
@@ -171,7 +196,6 @@ int main() {
     al_register_event_source(mainEscenario.getQueue(), al_get_timer_event_source(timerFramesPlayer));
     al_register_event_source(mainEscenario.getQueue(), al_get_mouse_event_source());
     al_start_timer(timerFramesPlayer);
-
 
     ALLEGRO_BITMAP* menu_null = al_load_bitmap("menu_null.png");
     ALLEGRO_BITMAP* menu_start = al_load_bitmap("menu_jugar.png");

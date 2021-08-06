@@ -62,7 +62,7 @@ int escenario::teclas(int m) {
 		posXdef += desplazamiento;
 	}
 	if (posX < 0) {
-		if (vuelta == 0||vuelta%2==0) {
+		if (vuelta == 0||vuelta%1==0) {
 			posX = 0;
 			n = 1;
 		}

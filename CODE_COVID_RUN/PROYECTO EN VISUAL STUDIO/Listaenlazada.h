@@ -37,18 +37,20 @@ int Listaenlazada<Tipo>::Size(){
 }
 template<typename Tipo>
 void Listaenlazada<Tipo>::Anadir(Tipo a){
-    if (head==nullptr){
-        head=new Nodo<Tipo>(a);
-        tama++;
-    }
-    else{
-        Nodo<Tipo> *tmp;
-        tmp=head;
-        while(tmp->Devolver()!=nullptr){
-            tmp=tmp->Devolver();
+    if (this != nullptr) {
+        if (tama == 0) {
+            head = new Nodo<Tipo>(a);
+            tama++;
         }
-        tmp->Devolver() = new Nodo<Tipo>(a);
-        tama++;
+        else {
+            Nodo<Tipo>* tmp;
+            tmp = head;
+            while (tmp->Devolver() != nullptr) {
+                tmp = tmp->Devolver();
+            }
+            tmp->Devolver() = new Nodo<Tipo>(a);
+            tama++;
+        }
     }
 }
 template<typename Tipo>
@@ -129,11 +131,9 @@ Nodo<Tipo> *Listaenlazada<Tipo>::end(){
 }
 template<typename Tipo>
 void Listaenlazada<Tipo>::vaciar(){
-    if (tama > 0) {
-        delete head;
-        tama = 0;
-        head = nullptr;
-    }
+    delete head;
+    tama = 0;
+    head = nullptr;
 }
 //Añadir
 //Destructor

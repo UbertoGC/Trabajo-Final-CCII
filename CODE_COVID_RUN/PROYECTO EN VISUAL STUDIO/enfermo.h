@@ -12,7 +12,7 @@ protected:
 	int posX=480, posY=480;
 	int direccion=0;
 	int movimiento = 2;
-	ALLEGRO_BITMAP* imgenemigo= al_load_bitmap("enfermo.png");
+	ALLEGRO_BITMAP* imgenemigo;
 	int tiempoPaso=60/18;
 	int tiempoCont = 0;
 	int paso = 1;
